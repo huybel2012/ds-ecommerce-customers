@@ -1,24 +1,19 @@
-# Phân tích sự hài lòng khách hàng trong dịch vụ CSKH thương mại điện tử
+# Phân tích hành vi mua sắm khách hàng thương mại điện tử
 
 ## Mô tả đề tài
-Phân tích các yếu tố ảnh hưởng đến điểm hài lòng khách hàng (CSAT Score) trong hoạt động chăm sóc khách hàng (CSKH) của một nền tảng thương mại điện tử. Từ đó đưa ra khuyến nghị công ty nên cải thiện khâu nào (kênh hỗ trợ, loại vấn đề, ca làm việc của agent...) để nâng cao trải nghiệm khách hàng.
+Phân tích hành vi mua sắm của khách hàng trên nền tảng thương mại điện tử — tìm hiểu các yếu tố liên quan đến giá trị đơn hàng, danh mục sản phẩm, tỷ lệ trả hàng... Từ đó đưa ra insight/khuyến nghị kinh doanh phù hợp.
 
 ## Dataset
-- **Nguồn:** [Ecommerce Customer Service Satisfaction](https://www.kaggle.com/datasets/ddosad/ecommerce-customer-service-satisfaction) (Kaggle)
-- **Kích thước:** 85,907 dòng, 20 cột
-- **Đơn vị quan sát:** mỗi dòng là 1 ticket/tương tác hỗ trợ khách hàng
-- **Biến mục tiêu:** `CSAT Score` (thang điểm 1–5, không thiếu dữ liệu)
+- **Nguồn:** [E-commerce Customer Data For Behavior Analysis](https://www.kaggle.com/datasets/shriyashjagtap/e-commerce-customer-for-behavior-analysis) (Kaggle)
+- **File sử dụng:** `ecommerce_customer_data_custom_ratios.csv`
+- **Lưu ý:** dataset gốc có 2 file, chỉ dùng file trên (theo chỉ định của tác giả dataset), không dùng file còn lại
 
 ### Các cột chính
+> Cập nhật bảng này sau khi chạy `df.columns` / `df.info()` để ghi đúng tên và ý nghĩa từng cột.
+
 | Cột | Ý nghĩa |
 |---|---|
-| `channel_name` | Kênh hỗ trợ (Inbound, Outcall...) |
-| `category` / `Sub-category` | Loại vấn đề khách hàng gặp phải |
-| `Tenure Bucket` | Thâm niên của agent xử lý |
-| `Agent Shift` | Ca làm việc của agent |
-| `CSAT Score` | Điểm hài lòng khách hàng (target) |
-
-Một số cột thiếu dữ liệu nhiều (>65%) như `connected_handling_time`, `order_date_time`, `Customer_City`, `Product_category`, `Item_price`, `Customer Remarks` — cân nhắc loại bỏ hoặc xử lý riêng khi phân tích.
+| ... | ... |
 
 ## Cấu trúc thư mục
 ```
@@ -26,11 +21,12 @@ ds-ecommerce-customers/
 ├── data/
 │   ├── raw/            # data gốc tải từ Kaggle (không commit lên Git)
 │   └── processed/      # data đã xử lý
-├── notebooks/           # code khám phá/phân tích dữ liệu
-│   └── 01_eda.py        # EDA ban đầu — chạy bằng: python notebooks/01_eda.py
+├── notebooks/
+│   └── 01_eda.py        # EDA — chạy bằng: python notebooks/01_eda.py
 ├── src/                  # code tái sử dụng (khi pipeline ổn định)
 ├── models/               # model đã train (nếu có)
-├── reports/              # biểu đồ, kết quả xuất ra
+├── reports/              # biểu đồ, kết quả, nhật ký làm sạch dữ liệu
+│   └── cleaning_log.csv  # nhật ký xử lý dữ liệu — bắt buộc khi nộp
 ├── requirements.txt
 ├── .gitignore
 └── README.md
@@ -47,7 +43,7 @@ pip install -r requirements.txt
 
 ## Tải dataset
 ```bash
-kaggle datasets download -d ddosad/ecommerce-customer-service-satisfaction -p data/raw --unzip
+python -m kaggle datasets download -d shriyashjagtap/e-commerce-customer-for-behavior-analysis -p data/raw --unzip
 ```
 (Cần cấu hình Kaggle API token trước — xem [hướng dẫn Kaggle API](https://github.com/Kaggle/kaggle-api))
 
@@ -55,6 +51,9 @@ kaggle datasets download -d ddosad/ecommerce-customer-service-satisfaction -p da
 ```bash
 python notebooks/01_eda.py
 ```
+
+## Nhật ký làm sạch dữ liệu
+Mọi bước xử lý dữ liệu bất thường (giá trị thiếu, trùng lặp, sai định dạng...) được ghi lại tại `reports/cleaning_log.csv`, gồm: bước xử lý, lý do, số dòng trước/sau, số dòng bị ảnh hưởng.
 
 ## Nhóm thực hiện
 Cập nhật danh sách thành viên và phân công công việc tại đây.
