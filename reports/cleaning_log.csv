@@ -1,0 +1,5 @@
+﻿buoc_xu_ly,ly_do,so_dong_truoc,so_dong_sau,so_dong_bi_anh_huong
+Loai bo trung lap hoan toan,Loai bo cac dong du lieu trung lap toan bo thong tin,250000,250000,0
+Xu ly missing value cot Returns,"Gia tri NaN duoc quy uoc la don hang thanh cong, khong co yeu cau tra hang (dien 0)",250000,250000,47596
+Chuan hoa Purchase Date,Ep kieu tu chuoi (str) sang datetime64 de phuc vu phan tich chuoi thoi gian,250000,250000,250000
+Xoa cot du thua Customer Age,Xoa cot Customer Age do trung lap nghiep vu hoan toan voi cot Age,250000,250000,250000
