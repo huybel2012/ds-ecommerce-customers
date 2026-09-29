@@ -1,6 +1,4 @@
 """
-Đánh giá chất lượng dữ liệu theo 6 chiều của Week 3 (nhiệm vụ #16-#22).
-
 File này chỉ đánh giá và ghi bằng chứng. Các ngưỡng chấm điểm 1-5 là rubric
 nội bộ của project để so sánh nhất quán, không phải chuẩn phổ quát.
 """

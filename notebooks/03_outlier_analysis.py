@@ -1,6 +1,4 @@
 """
-Phân tích outlier và noise cho Week 4 (nhiệm vụ #35-#43, #47-#50).
-
 Bao gồm point outlier, contextual outlier, collective outlier và noise audit.
 Các detector chỉ dùng để gắn cờ điều tra, không tự động xóa hay cap dữ liệu.
 """

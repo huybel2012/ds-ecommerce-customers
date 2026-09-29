@@ -1,6 +1,4 @@
 """
-Minh họa imputation an toàn, không gây data leakage cho Week 3.
-
 Đây chỉ là demo kỹ thuật: imputer được fit trên train rồi mới transform test.
 Kết quả không được ghi ngược vào dataset cleaned của project.
 """

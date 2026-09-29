@@ -1,6 +1,4 @@
 """
-Audit nền cho dữ liệu thương mại điện tử (nhiệm vụ #1-#15).
-
 Mục tiêu của file này là đọc dữ liệu thô và kiểm tra cấu trúc, missing,
 trùng lặp, miền giá trị và các dấu hiệu missing ẩn mà không sửa dữ liệu.
 """
