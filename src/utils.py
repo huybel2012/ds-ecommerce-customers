@@ -23,10 +23,6 @@ from typing import Iterable
 import pandas as pd
 
 
-# ---------------------------------------------------------------------
-# Project paths
-# ---------------------------------------------------------------------
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 
 RAW_DATA_PATH = (
@@ -38,11 +34,6 @@ RAW_DATA_PATH = (
 
 PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
 CLEANING_LOG_PATH = PROJECT_ROOT / "reports" / "cleaning_log.csv"
-
-
-# ---------------------------------------------------------------------
-# Expected schema
-# ---------------------------------------------------------------------
 
 EXPECTED_COLUMNS = [
     "Customer ID",
@@ -61,11 +52,6 @@ EXPECTED_COLUMNS = [
 ]
 
 BINARY_COLUMNS = ["Returns", "Churn"]
-
-
-# ---------------------------------------------------------------------
-# Loading
-# ---------------------------------------------------------------------
 
 def load_ecommerce_raw(
     path: str | Path = RAW_DATA_PATH,
@@ -91,9 +77,6 @@ def load_ecommerce_raw(
     )
 
 
-# ---------------------------------------------------------------------
-# Week 3 - Audit
-# ---------------------------------------------------------------------
 
 def audit(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -259,10 +242,6 @@ def binary_domain_report(
     return pd.DataFrame(rows)
 
 
-# ---------------------------------------------------------------------
-# Missing-value helpers
-# Chỉ dùng sau khi có reasoning.
-# ---------------------------------------------------------------------
 
 def add_missing_indicator(
     df: pd.DataFrame,
@@ -344,10 +323,6 @@ def group_median_impute(
 
     return result
 
-
-# ---------------------------------------------------------------------
-# Cleaning log
-# ---------------------------------------------------------------------
 
 def log_cleaning_step(
     step: str,
