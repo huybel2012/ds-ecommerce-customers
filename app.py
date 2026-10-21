@@ -6,7 +6,7 @@ st.set_page_config(
     page_title="E-Commerce Executive Dashboard",
     page_icon="📊",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="collapsed",
 )
 
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -17,34 +17,65 @@ CLEAN_CANDIDATES = [
 DATA_PATH = next((p for p in CLEAN_CANDIDATES if p.exists()), None)
 FIGURES_DIR = PROJECT_ROOT / "reports" / "figures"
 
+@st.cache_data
+def load_data():
+    if not DATA_PATH:
+        return None
+    data = pd.read_csv(DATA_PATH)
+    data["Purchase Date"] = pd.to_datetime(
+        data["Purchase Date"], errors="coerce"
+    )
+    return data
+
+df = load_data()
+
+if df is None:
+    st.error("Không tìm thấy file dữ liệu sạch trong thư mục data/processed/.")
+    st.stop()
+
+# ==============================================================================
+# CSS TÙY BIẾN GIAO DIỆN & ÉP CĂN GIỮA NÚT TAB THÀNH THẺ NỔI
+# ==============================================================================
 st.markdown(
     """
     <style>
+    /* 1. Mặc định ẩn nút Hamburger & Nút mở Sidebar góc trên */
+    [data-testid="stSidebarCollapsedControl"] {
+        display: none !important;
+    }
+    
+    /* 2. Tiêu đề căn chính giữa */
+    .dashboard-header {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        width: 100%;
+    }
     .dashboard-title {
         font-size: 1.85rem;
         font-weight: 700;
         color: #f8fafc;
-        margin-bottom: 0.2rem;
+        margin-bottom: 0.3rem;
         letter-spacing: -0.02em;
-        white-space: nowrap;
     }
     .dashboard-subtitle {
         color: #94a3b8;
         font-size: 0.95rem;
-        margin-bottom: 1.2rem;
     }
 
+    /* 3. CĂN GIỮA HÀNG 4 NÚT TAB VÀ TẠO KHOẢNG CÁCH DỄ NHÌN */
     div[data-testid="stTabs"] > div:first-child,
     div[data-testid="stTabs"] div[role="tablist"],
     div[data-testid="stTabs"] div[data-baseweb="tab-list"] {
         display: flex !important;
         justify-content: center !important;
         align-items: center !important;
-        gap: 20px !important;
+        gap: 18px !important;
         border-bottom: none !important;
         padding: 10px 0 25px 0 !important;
+        width: 100% !important;
     }
 
+    /* 4. TRIỆT TIÊU TOÀN BỘ VẠCH GẠCH ĐỎ MẶC ĐỊNH */
     div[data-testid="stTabs"] div[data-baseweb="tab-highlight"],
     div[data-testid="stTabs"] div[data-baseweb="tab-border"],
     div[data-baseweb="tab-highlight"],
@@ -54,6 +85,7 @@ st.markdown(
         background: transparent !important;
     }
 
+    /* 5. ĐỊNH HÌNH NÚT TAB THÀNH THẺ NỔI (CARDS) BO GÓC */
     div[data-testid="stTabs"] button[role="tab"],
     div[data-testid="stTabs"] button[data-baseweb="tab"] {
         background-color: #1e293b !important;
@@ -75,15 +107,17 @@ st.markdown(
         margin: 0 !important;
     }
 
+    /* 6. HIỆU ỨNG HOVER RÊ CHUỘT VÀO NÚT */
     div[data-testid="stTabs"] button[role="tab"]:hover,
     div[data-testid="stTabs"] button[data-baseweb="tab"]:hover {
         background-color: #334155 !important;
         color: #ffffff !important;
         border-color: #60a5fa !important;
         transform: translateY(-3px) !important;
-        box-shadow: 0 10px 20px -3px rgba(96, 165, 250, 0.28) !important;
+        box-shadow: 0 8px 18px rgba(96, 165, 250, 0.25) !important;
     }
 
+    /* 7. NÚT ĐANG ĐƯỢC CHỌN (ACTIVE) */
     div[data-testid="stTabs"] button[role="tab"][aria-selected="true"],
     div[data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="true"] {
         background-color: #2563eb !important;
@@ -97,93 +131,59 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-
-@st.cache_data
-def load_data():
-    if not DATA_PATH:
-        return None
-    data = pd.read_csv(DATA_PATH)
-    data["Purchase Date"] = pd.to_datetime(
-        data["Purchase Date"], errors="coerce"
-    )
-    return data
-
-
-df = load_data()
-
-if df is None:
-    st.error(
-        "Không tìm thấy file dữ liệu sạch trong thư mục data/processed/."
-    )
-    st.stop()
-
-st.sidebar.title("Bộ lọc phân tích")
-st.sidebar.markdown("Tùy chỉnh phạm vi dữ liệu để đối chiếu chỉ số.")
-
-all_categories = sorted(df["Product Category"].dropna().unique().tolist())
-selected_categories = st.sidebar.multiselect(
-    "Danh mục sản phẩm:",
-    options=all_categories,
-    default=all_categories,
-)
-
-all_payments = sorted(df["Payment Method"].dropna().unique().tolist())
-selected_payments = st.sidebar.multiselect(
-    "Phương thức thanh toán:",
-    options=all_payments,
-    default=all_payments,
-)
-
-all_genders = sorted(df["Gender"].dropna().unique().tolist())
-selected_genders = st.sidebar.multiselect(
-    "Giới tính khách hàng:",
-    options=all_genders,
-    default=all_genders,
-)
-
-filtered_df = df[
-    (df["Product Category"].isin(selected_categories))
-    & (df["Payment Method"].isin(selected_payments))
-    & (df["Gender"].isin(selected_genders))
-]
-
-st.sidebar.divider()
-st.sidebar.caption(
-    "Dự án: **ds-ecommerce-customers**\nKhóa học: **INFO3020 - Data Science**"
+# JavaScript ép đóng Sidebar trên trình duyệt
+st.components.v1.html(
+    """
+    <script>
+    function forceCloseSidebar() {
+        const parentDoc = window.parent.document;
+        const sidebar = parentDoc.querySelector('section[data-testid="stSidebar"]');
+        const collapseBtn = parentDoc.querySelector('button[kind="header"]');
+        if (sidebar && sidebar.getAttribute('aria-expanded') === 'true' && collapseBtn) {
+            collapseBtn.click();
+        }
+    }
+    setTimeout(forceCloseSidebar, 100);
+    setTimeout(forceCloseSidebar, 500);
+    </script>
+    """,
+    height=0,
 )
 
 st.markdown(
     """
-    <div class="dashboard-title">Báo Cáo Phân Tích Hành Vi Khách Hàng E-Commerce</div>
-    <div class="dashboard-subtitle">Hệ thống kiểm toán chất lượng dữ liệu và trực quan hóa phân tích kinh doanh điều hành.</div>
+    <div class="dashboard-header">
+        <div class="dashboard-title">Báo Cáo Phân Tích Hành Vi Khách Hàng E-Commerce</div>
+        <div class="dashboard-subtitle">Hệ thống kiểm toán chất lượng dữ liệu và trực quan hóa phân tích kinh doanh điều hành.</div>
+    </div>
     """,
     unsafe_allow_html=True,
 )
 
 col1, col2, col3, col4 = st.columns(4)
 
-total_rev = filtered_df["Total Purchase Amount"].sum() / 1e6
-total_orders = len(filtered_df)
-median_spend = filtered_df["Total Purchase Amount"].median()
-churn_rate = (filtered_df["Churn"].mean() * 100) if total_orders > 0 else 0
+total_rev = df["Total Purchase Amount"].sum() / 1e6
+total_orders = len(df)
+median_spend = df["Total Purchase Amount"].median()
+churn_rate = df["Churn"].mean() * 100
 
 with col1:
     st.metric(
         "Tổng Doanh Thu",
         f"${total_rev:,.2f}M",
-        help="Tổng giá trị đơn hàng trong phạm vi lọc",
+        help="Tổng giá trị đơn hàng tích lũy",
     )
 with col2:
     st.metric(
         "Tổng Số Đơn Hàng",
         f"{total_orders:,}",
-        help="Số giao dịch được ghi nhận",
+        help="Tổng số giao dịch được ghi nhận",
     )
 with col3:
     st.metric(
         "Chi Tiêu Trung Vị",
         f"${median_spend:,.0f}",
-        help="Mức giá trị đơn hàng trung vị",
+        help="Mức chi tiêu đơn hàng trung vị",
     )
 with col4:
     st.metric(
@@ -255,7 +255,35 @@ with tab_churn:
 
 with tab_data:
     st.subheader("4. Bảng tra cứu dữ liệu giao dịch sau làm sạch")
+    
+    with st.expander("🔍 **Bộ Lọc Phân Tích Dữ Liệu (Bấm để mở/ẩn bộ lọc)**", expanded=True):
+        f_col1, f_col2, f_col3 = st.columns(3)
+        with f_col1:
+            sel_cat = st.multiselect(
+                "Danh mục sản phẩm:",
+                options=sorted(df["Product Category"].dropna().unique().tolist()),
+                default=sorted(df["Product Category"].dropna().unique().tolist()),
+            )
+        with f_col2:
+            sel_pay = st.multiselect(
+                "Phương thức thanh toán:",
+                options=sorted(df["Payment Method"].dropna().unique().tolist()),
+                default=sorted(df["Payment Method"].dropna().unique().tolist()),
+            )
+        with f_col3:
+            sel_gen = st.multiselect(
+                "Giới tính khách hàng:",
+                options=sorted(df["Gender"].dropna().unique().tolist()),
+                default=sorted(df["Gender"].dropna().unique().tolist()),
+            )
+
+    filtered_df = df[
+        (df["Product Category"].isin(sel_cat))
+        & (df["Payment Method"].isin(sel_pay))
+        & (df["Gender"].isin(sel_gen))
+    ]
+
     st.dataframe(filtered_df.head(100), use_container_width=True)
     st.caption(
-        f"Hiển thị 100 bản ghi đầu tiên trong tổng số {len(filtered_df):,} giao dịch theo bộ lọc."
+        f"Hiển thị 100 bản ghi đầu tiên trong tổng số {len(filtered_df):,} giao dịch khớp với bộ lọc."
     )
