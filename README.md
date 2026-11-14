@@ -96,3 +96,12 @@ Results: `reports/hypothesis_tests.md`, `reports/regression_results.md`, figures
 ```
 
 Uses **only** `data/processed/ecommerce_customer_clean.csv` from Phase 2. Fixed pre-2023 observation cutoff; customer-level grouped holdout/CV; prior and all-positive baselines vs Logistic Regression vs Random Forest; F1, ROC-AUC, PR-AUC, confusion matrices and uncertainty. Outputs under `reports/phase5/`, `reports/classification_results.md` and figures `10`–`12`. See [Phase 5 runbook](docs/phase5_runbook.md) and [churn label assessment](docs/churn_label_assessment.md). **IMPORTANT:** The Kaggle synthetic `Churn` labels have no event timestamp; this is retrospective classification, NOT validated forecasting of future churn.
+
+## Phase 5.1: Classification Improvement Study (exploratory)
+
+```powershell
+.\venv\Scripts\python.exe -m src.run_phase51 --dry-run
+.\venv\Scripts\python.exe -m src.run_phase51
+```
+
+Train-only diagnostics: 19 vs 28 pre-cutoff behavioral features, Logistic Regression and HistGradientBoosting, repeated grouped CV, univariate signal, shuffled-label negative controls, and pre-declared performance screen. **Does not evaluate the previously inspected Phase 5 holdout, replace the official W11 report, or claim prospective churn prediction.** See [Phase 5.1 runbook](docs/phase51_runbook.md).

@@ -1,0 +1,617 @@
+{
+  "phase": "5.1",
+  "protocol": "EXPLORATORY; train-only; previous Phase 5 holdout NOT evaluated",
+  "source_rows": 250000,
+  "eligible_customers": 49128,
+  "train_customers": 39302,
+  "held_out_customers_not_scored": 9826,
+  "positive_rate_training": 0.2009566943158109,
+  "cutoff_exclusive": "2023-01-01T00:00:00",
+  "n_features_original": 19,
+  "n_features_expanded": 28,
+  "new_features": [
+    "mean_gap_days",
+    "std_gap_days",
+    "transactions_last_90d",
+    "transactions_last_180d",
+    "transactions_previous_90d",
+    "frequency_delta_90d",
+    "category_switch_rate",
+    "amount_trend_recent_vs_previous_180d",
+    "has_both_180d_windows"
+  ],
+  "feature_audit": {
+    "cutoff_exclusive": "2023-01-01T00:00:00",
+    "total_transactions": 250000,
+    "history_transactions": 202313,
+    "excluded_post_cutoff_transactions": 47687,
+    "total_customers": 49673,
+    "eligible_customers": 49128,
+    "ineligible_customers": 545,
+    "positive_customers": 9835,
+    "positive_rate": 0.20019133691581176,
+    "latest_feature_transaction": "2022-12-31T23:56:35",
+    "label_timestamp_known": false,
+    "prospective_claim_permitted": false,
+    "feature_columns": [
+      "transaction_count",
+      "active_days",
+      "categories_count",
+      "payment_methods_count",
+      "quantity_mean",
+      "quantity_sum",
+      "unit_price_mean",
+      "recorded_amount_mean",
+      "calculated_line_value_mean",
+      "recency_days",
+      "history_span_days",
+      "category_share_books",
+      "category_share_clothing",
+      "category_share_electronics",
+      "category_share_home",
+      "payment_share_cash",
+      "payment_share_credit_card",
+      "payment_share_crypto",
+      "payment_share_paypal"
+    ],
+    "forbidden_predictors": [
+      "Age",
+      "Churn",
+      "Customer Age",
+      "Customer ID",
+      "Customer Name",
+      "Gender",
+      "Purchase Date",
+      "Returns",
+      "Returns_was_missing"
+    ],
+    "source_limitation": "Static Churn label lacks a timestamp; retrospective synthetic classification only.",
+    "new_features": [
+      "mean_gap_days",
+      "std_gap_days",
+      "transactions_last_90d",
+      "transactions_last_180d",
+      "transactions_previous_90d",
+      "frequency_delta_90d",
+      "category_switch_rate",
+      "amount_trend_recent_vs_previous_180d",
+      "has_both_180d_windows"
+    ]
+  },
+  "tested_models": {
+    "Phase 5 (19 features) | Logistic Regression": {
+      "mean": {
+        "ROC_AUC": 0.4992787926269105,
+        "PR_AUC": 0.20159552653106258,
+        "prevalence": 0.20095669328118806,
+        "lift_at_top_10pct": 1.0023259897916876,
+        "AP_gain_vs_prevalence": 0.0006388332498745153
+      },
+      "repeat_roc_auc": {
+        "42": 0.4960847567163198,
+        "137": 0.5024728285375012
+      },
+      "folds": [
+        {
+          "repeat_seed": 42,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.49714700297987346,
+          "PR_AUC": 0.20182670251670334,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 1.0209469495168262
+        },
+        {
+          "repeat_seed": 42,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.4945149966744362,
+          "PR_AUC": 0.19980328709404263,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 1.0057655822377656
+        },
+        {
+          "repeat_seed": 42,
+          "fold_customers": 13100,
+          "ROC_AUC": 0.4965922704946497,
+          "PR_AUC": 0.19999215505845258,
+          "prevalence": 0.20091603053435114,
+          "lift_at_top_10pct": 0.9992401215805471
+        },
+        {
+          "repeat_seed": 137,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.4954578444338567,
+          "PR_AUC": 0.19874706309394552,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 0.9602214804005836
+        },
+        {
+          "repeat_seed": 137,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.5056451499377191,
+          "PR_AUC": 0.20437674415504373,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 1.0247422913365913
+        },
+        {
+          "repeat_seed": 137,
+          "fold_customers": 13100,
+          "ROC_AUC": 0.5063154912409277,
+          "PR_AUC": 0.2048272072681876,
+          "prevalence": 0.20091603053435114,
+          "lift_at_top_10pct": 1.0030395136778116
+        }
+      ]
+    },
+    "Phase 5 (19 features) | HistGradientBoosting": {
+      "mean": {
+        "ROC_AUC": 0.4934778855833521,
+        "PR_AUC": 0.19850432757755954,
+        "prevalence": 0.20095669328118806,
+        "lift_at_top_10pct": 0.9820774162904412,
+        "AP_gain_vs_prevalence": -0.0024523657036285285
+      },
+      "repeat_roc_auc": {
+        "42": 0.4909130776025435,
+        "137": 0.4960426935641606
+      },
+      "folds": [
+        {
+          "repeat_seed": 42,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.49860907551649275,
+          "PR_AUC": 0.1991953701118897,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 0.9943795567784701
+        },
+        {
+          "repeat_seed": 42,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.48295868072280324,
+          "PR_AUC": 0.19628439906514553,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 0.990584214958705
+        },
+        {
+          "repeat_seed": 42,
+          "fold_customers": 13100,
+          "ROC_AUC": 0.49117147656833454,
+          "PR_AUC": 0.19837533747463043,
+          "prevalence": 0.20091603053435114,
+          "lift_at_top_10pct": 1.0182370820668694
+        },
+        {
+          "repeat_seed": 137,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.4984432145655484,
+          "PR_AUC": 0.20056045467419695,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 1.0019702404180004
+        },
+        {
+          "repeat_seed": 137,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.4920957088980128,
+          "PR_AUC": 0.1966695162544479,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 0.941244771301758
+        },
+        {
+          "repeat_seed": 137,
+          "fold_customers": 13100,
+          "ROC_AUC": 0.4975891572289206,
+          "PR_AUC": 0.19994088788504694,
+          "prevalence": 0.20091603053435114,
+          "lift_at_top_10pct": 0.946048632218845
+        }
+      ]
+    },
+    "Phase 5.1 (28 features) | Logistic Regression": {
+      "mean": {
+        "ROC_AUC": 0.49597787406934674,
+        "PR_AUC": 0.19959536984929063,
+        "prevalence": 0.20095669328118806,
+        "lift_at_top_10pct": 0.9700736848786824,
+        "AP_gain_vs_prevalence": -0.001361323431897432
+      },
+      "repeat_roc_auc": {
+        "42": 0.490958270671865,
+        "137": 0.5009974774668284
+      },
+      "folds": [
+        {
+          "repeat_seed": 42,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.4911354097293384,
+          "PR_AUC": 0.19956009471031125,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 1.0019702404180004
+        },
+        {
+          "repeat_seed": 42,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.490819434005446,
+          "PR_AUC": 0.19503211929484657,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 0.8577472512669246
+        },
+        {
+          "repeat_seed": 42,
+          "fold_customers": 13100,
+          "ROC_AUC": 0.49091996828081064,
+          "PR_AUC": 0.19920071124219302,
+          "prevalence": 0.20091603053435114,
+          "lift_at_top_10pct": 1.0372340425531916
+        },
+        {
+          "repeat_seed": 137,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.49464836752769475,
+          "PR_AUC": 0.19907489994928756,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 0.9450401131215231
+        },
+        {
+          "repeat_seed": 137,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.5023112051399008,
+          "PR_AUC": 0.2011869938620068,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 0.967812164040114
+        },
+        {
+          "repeat_seed": 137,
+          "fold_customers": 13100,
+          "ROC_AUC": 0.5060328597328898,
+          "PR_AUC": 0.20351740003709884,
+          "prevalence": 0.20091603053435114,
+          "lift_at_top_10pct": 1.0106382978723405
+        }
+      ]
+    },
+    "Phase 5.1 (28 features) | HistGradientBoosting": {
+      "mean": {
+        "ROC_AUC": 0.4905573832885157,
+        "PR_AUC": 0.19673091800828788,
+        "prevalence": 0.20095669328118806,
+        "lift_at_top_10pct": 0.9415822944266984,
+        "AP_gain_vs_prevalence": -0.00422577527290019
+      },
+      "repeat_roc_auc": {
+        "42": 0.4883886996634073,
+        "137": 0.4927260669136242
+      },
+      "folds": [
+        {
+          "repeat_seed": 42,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.4935398765064266,
+          "PR_AUC": 0.19905769722935288,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 1.0247422913365913
+        },
+        {
+          "repeat_seed": 42,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.47897997710200957,
+          "PR_AUC": 0.19114347529642312,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 0.8957006694645762
+        },
+        {
+          "repeat_seed": 42,
+          "fold_customers": 13100,
+          "ROC_AUC": 0.49264624538178586,
+          "PR_AUC": 0.19685932433523262,
+          "prevalence": 0.20091603053435114,
+          "lift_at_top_10pct": 0.919452887537994
+        },
+        {
+          "repeat_seed": 137,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.49488477788673524,
+          "PR_AUC": 0.1991962605017796,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 0.9450401131215231
+        },
+        {
+          "repeat_seed": 137,
+          "fold_customers": 13101,
+          "ROC_AUC": 0.4915333635389048,
+          "PR_AUC": 0.19669679226771514,
+          "prevalence": 0.2009770246546065,
+          "lift_at_top_10pct": 0.8843146440052807
+        },
+        {
+          "repeat_seed": 137,
+          "fold_customers": 13100,
+          "ROC_AUC": 0.49176005931523253,
+          "PR_AUC": 0.19743195841922362,
+          "prevalence": 0.20091603053435114,
+          "lift_at_top_10pct": 0.980243161094225
+        }
+      ]
+    }
+  },
+  "train_signal_ranking": [
+    {
+      "feature": "quantity_sum",
+      "auc_absolute_distance_from_chance": 0.005954617155898623,
+      "univariate_auc": 0.4940453828441014,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "active_days",
+      "auc_absolute_distance_from_chance": 0.005768138805433587,
+      "univariate_auc": 0.4942318611945664,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "std_gap_days",
+      "auc_absolute_distance_from_chance": 0.005668325796627738,
+      "univariate_auc": 0.49433167420337226,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "transaction_count",
+      "auc_absolute_distance_from_chance": 0.005535169884631763,
+      "univariate_auc": 0.49446483011536824,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "unit_price_mean",
+      "auc_absolute_distance_from_chance": 0.005315459505201292,
+      "univariate_auc": 0.4946845404947987,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "calculated_line_value_mean",
+      "auc_absolute_distance_from_chance": 0.004984995854836083,
+      "univariate_auc": 0.4950150041451639,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "categories_count",
+      "auc_absolute_distance_from_chance": 0.004058794916035446,
+      "univariate_auc": 0.49594120508396455,
+      "mutual_information": 0.00018664000503898492
+    },
+    {
+      "feature": "payment_share_cash",
+      "auc_absolute_distance_from_chance": 0.004018277442564111,
+      "univariate_auc": 0.5040182774425641,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "payment_share_crypto",
+      "auc_absolute_distance_from_chance": 0.00320999426550439,
+      "univariate_auc": 0.4967900057344956,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "category_switch_rate",
+      "auc_absolute_distance_from_chance": 0.003200684862425196,
+      "univariate_auc": 0.4967993151375748,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "history_span_days",
+      "auc_absolute_distance_from_chance": 0.002953249879151132,
+      "univariate_auc": 0.49704675012084887,
+      "mutual_information": 0.0013703879331510294
+    },
+    {
+      "feature": "category_share_books",
+      "auc_absolute_distance_from_chance": 0.0024058618162362544,
+      "univariate_auc": 0.49759413818376375,
+      "mutual_information": 0.0017578192315110819
+    },
+    {
+      "feature": "mean_gap_days",
+      "auc_absolute_distance_from_chance": 0.0023770949946810838,
+      "univariate_auc": 0.5023770949946811,
+      "mutual_information": 0.001516721166461954
+    },
+    {
+      "feature": "transactions_last_180d",
+      "auc_absolute_distance_from_chance": 0.0023438206319209565,
+      "univariate_auc": 0.502343820631921,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "has_both_180d_windows",
+      "auc_absolute_distance_from_chance": 0.0022648338342913243,
+      "univariate_auc": 0.5022648338342913,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "category_share_electronics",
+      "auc_absolute_distance_from_chance": 0.0020999316079400865,
+      "univariate_auc": 0.4979000683920599,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "recorded_amount_mean",
+      "auc_absolute_distance_from_chance": 0.001996108983992384,
+      "univariate_auc": 0.5019961089839924,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "amount_trend_recent_vs_previous_180d",
+      "auc_absolute_distance_from_chance": 0.0018749355518370425,
+      "univariate_auc": 0.501874935551837,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "payment_share_credit_card",
+      "auc_absolute_distance_from_chance": 0.0015873540197703928,
+      "univariate_auc": 0.4984126459802296,
+      "mutual_information": 0.000570960867186221
+    },
+    {
+      "feature": "transactions_previous_90d",
+      "auc_absolute_distance_from_chance": 0.0014219982170456946,
+      "univariate_auc": 0.5014219982170457,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "quantity_mean",
+      "auc_absolute_distance_from_chance": 0.0012875440686741513,
+      "univariate_auc": 0.49871245593132585,
+      "mutual_information": 0.0
+    },
+    {
+      "feature": "transactions_last_90d",
+      "auc_absolute_distance_from_chance": 0.0011341727616849262,
+      "univariate_auc": 0.5011341727616849,
+      "mutual_information": 0.006183698162651519
+    },
+    {
+      "feature": "category_share_clothing",
+      "auc_absolute_distance_from_chance": 0.0011214927821767695,
+      "univariate_auc": 0.5011214927821768,
+      "mutual_information": 0.0005399608825220614
+    },
+    {
+      "feature": "payment_methods_count",
+      "auc_absolute_distance_from_chance": 0.0010703434785103716,
+      "univariate_auc": 0.49892965652148963,
+      "mutual_information": 0.004635432969762654
+    },
+    {
+      "feature": "recency_days",
+      "auc_absolute_distance_from_chance": 0.0010344726429986628,
+      "univariate_auc": 0.49896552735700134,
+      "mutual_information": 0.0041378711472692675
+    },
+    {
+      "feature": "category_share_home",
+      "auc_absolute_distance_from_chance": 0.0010130436792192832,
+      "univariate_auc": 0.5010130436792193,
+      "mutual_information": 0.003208156148631014
+    },
+    {
+      "feature": "frequency_delta_90d",
+      "auc_absolute_distance_from_chance": 0.00039426471100989513,
+      "univariate_auc": 0.4996057352889901,
+      "mutual_information": 0.0027536315586809135
+    },
+    {
+      "feature": "payment_share_paypal",
+      "auc_absolute_distance_from_chance": 0.00010046817467868063,
+      "univariate_auc": 0.4998995318253213,
+      "mutual_information": 0.0031821499422042265
+    }
+  ],
+  "selected_exploratory_cv": "Phase 5 (19 features) | Logistic Regression",
+  "negative_control": {
+    "method": "independent random permutations of training labels",
+    "runs": [
+      {
+        "mean": {
+          "ROC_AUC": 0.5103271250152327,
+          "PR_AUC": 0.20821970868733075,
+          "prevalence": 0.20095669328118806,
+          "lift_at_top_10pct": 1.0390190193731665,
+          "AP_gain_vs_prevalence": 0.007263015406142687
+        },
+        "repeat_roc_auc": {
+          "253": 0.5103271250152327
+        },
+        "folds": [
+          {
+            "repeat_seed": 253,
+            "fold_customers": 13101,
+            "ROC_AUC": 0.509567834897623,
+            "PR_AUC": 0.20773788020433592,
+            "prevalence": 0.2009770246546065,
+            "lift_at_top_10pct": 1.017151607697061
+          },
+          {
+            "repeat_seed": 253,
+            "fold_customers": 13101,
+            "ROC_AUC": 0.5112665717638956,
+            "PR_AUC": 0.21053273416758242,
+            "prevalence": 0.2009770246546065,
+            "lift_at_top_10pct": 1.0854677604528338
+          },
+          {
+            "repeat_seed": 253,
+            "fold_customers": 13100,
+            "ROC_AUC": 0.5101469683841796,
+            "PR_AUC": 0.20638851169007394,
+            "prevalence": 0.20091603053435114,
+            "lift_at_top_10pct": 1.0144376899696048
+          }
+        ]
+      },
+      {
+        "mean": {
+          "ROC_AUC": 0.4949616956750342,
+          "PR_AUC": 0.19889752117619844,
+          "prevalence": 0.20095669328118806,
+          "lift_at_top_10pct": 0.9580476769406774,
+          "AP_gain_vs_prevalence": -0.002059172104989626
+        },
+        "repeat_roc_auc": {
+          "254": 0.4949616956750342
+        },
+        "folds": [
+          {
+            "repeat_seed": 254,
+            "fold_customers": 13101,
+            "ROC_AUC": 0.49716358363274055,
+            "PR_AUC": 0.1985513489869083,
+            "prevalence": 0.2009770246546065,
+            "lift_at_top_10pct": 0.9564261385808185
+          },
+          {
+            "repeat_seed": 254,
+            "fold_customers": 13101,
+            "ROC_AUC": 0.49143944883442725,
+            "PR_AUC": 0.1974118242106504,
+            "prevalence": 0.2009770246546065,
+            "lift_at_top_10pct": 0.9146773785634018
+          },
+          {
+            "repeat_seed": 254,
+            "fold_customers": 13100,
+            "ROC_AUC": 0.49628205455793484,
+            "PR_AUC": 0.2007293903310367,
+            "prevalence": 0.20091603053435114,
+            "lift_at_top_10pct": 1.0030395136778116
+          }
+        ]
+      }
+    ]
+  },
+  "screening_thresholds": {
+    "min_mean_roc_auc": 0.55,
+    "min_mean_ap_gain_vs_prevalence": 0.03,
+    "min_mean_top_decile_lift": 1.2,
+    "min_gain_vs_permuted_roc_auc": 0.03,
+    "min_roc_auc_every_repeat": 0.52
+  },
+  "screening": {
+    "checks": {
+      "ROC_AUC_at_least_0_55": false,
+      "AP_gain_at_least_0_03": false,
+      "top_decile_lift_at_least_1_20": false,
+      "AUC_gain_vs_permutations_at_least_0_03": false,
+      "all_repeat_AUC_at_least_0_52": false
+    },
+    "average_permuted_roc_auc": 0.5026444103451334,
+    "auc_gain_vs_permutations": -0.003365617718222913
+  },
+  "passed_exploratory_screen": false,
+  "model_replacement_approved": false,
+  "recommendation": "No robust train-only evidence of improved churn discrimination; retain Phase 5 report.",
+  "limitations": [
+    "Static synthetic Churn has no event/effective timestamp; never claim future prediction.",
+    "Previous Phase 5 holdout was already inspected; it is not a fresh confirmatory test.",
+    "Screening four model/feature candidates produces selection optimism even within CV.",
+    "Time-derived features may be sparse because transaction history per customer is short.",
+    "Recorded amount units and interpretation are unresolved; not verified revenue.",
+    "Negative-control permutations assess spurious fit but cannot prove label-generation mechanism.",
+    "No Returns, customer names, identifiers, age, gender, or post-cutoff data are predictors."
+  ]
+}

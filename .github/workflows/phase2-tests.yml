@@ -1,4 +1,4 @@
-name: Data integrity, pipeline, EDA, W9, W10 and W11 tests
+name: Data integrity, pipeline, EDA, W9-W11 and Phase 5.1 tests
 
 on:
   push:
