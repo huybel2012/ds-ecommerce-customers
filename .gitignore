@@ -42,3 +42,6 @@ reports/phase5/run_manifest.json
 
 # Phase 5.1 local reproducibility manifest contains machine-specific paths
 reports/phase5/phase51_run_manifest.json
+
+# Phase 6 private local run manifest (input hashes/timestamps)
+reports/phase6/run_manifest.json

@@ -1,4 +1,4 @@
-name: Data integrity, pipeline, EDA, W9-W11 and Phase 5.1 tests
+name: Data integrity, pipeline, EDA, W9-W12 and Phase 5.1 tests
 
 on:
   push:
@@ -24,3 +24,5 @@ jobs:
         run: python -m src.run_pipeline --dry-run
       - name: Classification preflight
         run: python -m src.run_phase5 --dry-run
+      - name: Fairness audit preflight
+        run: python -m src.run_phase6 --dry-run

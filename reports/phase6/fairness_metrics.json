@@ -1,0 +1,836 @@
+{
+  "n_holdout_customers": 9826,
+  "threshold": 0.375,
+  "overall": {
+    "threshold": 0.375,
+    "accuracy": 0.19733360472216568,
+    "balanced_accuracy": 0.49993200703645374,
+    "precision": 0.1971085318672368,
+    "recall": 0.9994837377387713,
+    "F1": 0.3292797006548176,
+    "ROC_AUC": 0.4948531813344853,
+    "PR_AUC_average_precision": 0.19649560618418155,
+    "Brier": 0.24479390757004946,
+    "confusion_matrix_tn_fp_fn_tp": [
+      3,
+      7886,
+      1,
+      1936
+    ]
+  },
+  "groups": {
+    "Gender": [
+      {
+        "group": "Female",
+        "n": 4901,
+        "positives": 950,
+        "negatives": 3951,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 0.9997959600081616,
+        "tpr": 1.0,
+        "fpr": 0.9997468995191091,
+        "ppv": 0.19387755102040816,
+        "balanced_accuracy": 0.5001265502404455,
+        "roc_auc": 0.48333186801475975,
+        "average_precision": 0.1896912316170672,
+        "confusion_matrix_tn_fp_fn_tp": [
+          1,
+          3950,
+          0,
+          950
+        ],
+        "selection_rate_ci95": [
+          0.9988450612527399,
+          0.9999639810231954
+        ],
+        "tpr_ci95": [
+          0.995972644316128,
+          0.9999999999999999
+        ],
+        "fpr_ci95": [
+          0.9985676398994943,
+          0.9999553201530089
+        ],
+        "ppv_ci95": [
+          0.18304994108460954,
+          0.20518476731857394
+        ]
+      },
+      {
+        "group": "Male",
+        "n": 4925,
+        "positives": 987,
+        "negatives": 3938,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 0.9993908629441625,
+        "tpr": 0.9989868287740629,
+        "fpr": 0.9994921279837481,
+        "ppv": 0.20032507110930517,
+        "balanced_accuracy": 0.4997473503951574,
+        "roc_auc": 0.505935722029862,
+        "average_precision": 0.20415688722894537,
+        "confusion_matrix_tn_fp_fn_tp": [
+          2,
+          3936,
+          1,
+          986
+        ],
+        "selection_rate_ci95": [
+          0.9982104743725937,
+          0.9997928172928174
+        ],
+        "tpr_ci95": [
+          0.9942834194281716,
+          0.9998211280060398
+        ],
+        "fpr_ci95": [
+          0.9981499996451372,
+          0.9998607121243209
+        ],
+        "ppv_ci95": [
+          0.1893791515012253,
+          0.21173839873632017
+        ]
+      }
+    ],
+    "AgeBand": [
+      {
+        "group": "18-25",
+        "n": 1523,
+        "positives": 318,
+        "negatives": 1205,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 0.9993434011818779,
+        "tpr": 1.0,
+        "fpr": 0.9991701244813278,
+        "ppv": 0.20893561103810776,
+        "balanced_accuracy": 0.5004149377593361,
+        "roc_auc": 0.5082074166862391,
+        "average_precision": 0.21001032358383395,
+        "confusion_matrix_tn_fp_fn_tp": [
+          1,
+          1204,
+          0,
+          318
+        ],
+        "selection_rate_ci95": [
+          0.996290070179471,
+          0.9998840847814465
+        ],
+        "tpr_ci95": [
+          0.9880641268692663,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.9953142297405577,
+          0.999853491569735
+        ],
+        "ppv_ci95": [
+          0.18925639417728385,
+          0.23008039544909087
+        ]
+      },
+      {
+        "group": "26-35",
+        "n": 1882,
+        "positives": 337,
+        "negatives": 1545,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 1.0,
+        "tpr": 1.0,
+        "fpr": 1.0,
+        "ppv": 0.17906482465462273,
+        "balanced_accuracy": 0.5,
+        "roc_auc": 0.49404703600203587,
+        "average_precision": 0.18299766463511885,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          1545,
+          0,
+          337
+        ],
+        "selection_rate_ci95": [
+          0.9979630001224512,
+          0.9999999999999999
+        ],
+        "tpr_ci95": [
+          0.9887294848637678,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.9975197856444137,
+          0.9999999999999999
+        ],
+        "ppv_ci95": [
+          0.16240188358108637,
+          0.19703525555391832
+        ]
+      },
+      {
+        "group": "36-45",
+        "n": 1832,
+        "positives": 347,
+        "negatives": 1485,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 0.9994541484716157,
+        "tpr": 1.0,
+        "fpr": 0.9993265993265993,
+        "ppv": 0.18951392681594756,
+        "balanced_accuracy": 0.5003367003367003,
+        "roc_auc": 0.5059606633093665,
+        "average_precision": 0.1874048162001686,
+        "confusion_matrix_tn_fp_fn_tp": [
+          1,
+          1484,
+          0,
+          347
+        ],
+        "selection_rate_ci95": [
+          0.9969144654847845,
+          0.9999036373025626
+        ],
+        "tpr_ci95": [
+          0.9890507272612344,
+          0.9999999999999999
+        ],
+        "fpr_ci95": [
+          0.9961953887945852,
+          0.9998811183539184
+        ],
+        "ppv_ci95": [
+          0.17221963390240322,
+          0.20810829877316264
+        ]
+      },
+      {
+        "group": "46-55",
+        "n": 1847,
+        "positives": 353,
+        "negatives": 1494,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 0.9994585814834868,
+        "tpr": 1.0,
+        "fpr": 0.999330655957162,
+        "ppv": 0.19122426868905743,
+        "balanced_accuracy": 0.500334672021419,
+        "roc_auc": 0.47810126246250345,
+        "average_precision": 0.18932145189959126,
+        "confusion_matrix_tn_fp_fn_tp": [
+          1,
+          1493,
+          0,
+          353
+        ],
+        "selection_rate_ci95": [
+          0.9969394702815568,
+          0.9999044199431546
+        ],
+        "tpr_ci95": [
+          0.9892348304107108,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.9962182474628613,
+          0.9998818345676536
+        ],
+        "ppv_ci95": [
+          0.1739328462263266,
+          0.20979812457439828
+        ]
+      },
+      {
+        "group": "56-65",
+        "n": 1823,
+        "positives": 379,
+        "negatives": 1444,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 0.9994514536478333,
+        "tpr": 0.9973614775725593,
+        "fpr": 1.0,
+        "ppv": 0.2074643249176729,
+        "balanced_accuracy": 0.49868073878627966,
+        "roc_auc": 0.5060170736520513,
+        "average_precision": 0.21613418803339685,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          1444,
+          1,
+          378
+        ],
+        "selection_rate_ci95": [
+          0.9968992655208944,
+          0.9999031615356577
+        ],
+        "tpr_ci95": [
+          0.9852077491778739,
+          0.999534084063781
+        ],
+        "fpr_ci95": [
+          0.9973467683237756,
+          1.0
+        ],
+        "ppv_ci95": [
+          0.18947027500803978,
+          0.22668932918425058
+        ]
+      },
+      {
+        "group": "66-70",
+        "n": 919,
+        "positives": 203,
+        "negatives": 716,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 1.0,
+        "tpr": 1.0,
+        "fpr": 1.0,
+        "ppv": 0.22089227421109903,
+        "balanced_accuracy": 0.5,
+        "roc_auc": 0.460804414233426,
+        "average_precision": 0.22295792356792452,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          716,
+          0,
+          203
+        ],
+        "selection_rate_ci95": [
+          0.9958373577780055,
+          1.0
+        ],
+        "tpr_ci95": [
+          0.9814280036381673,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.9946634654428107,
+          0.9999999999999999
+        ],
+        "ppv_ci95": [
+          0.19526350646248147,
+          0.24884469316742414
+        ]
+      }
+    ],
+    "GenderAge": [
+      {
+        "group": "Female/18-25",
+        "n": 726,
+        "positives": 144,
+        "negatives": 582,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 0.9986225895316805,
+        "tpr": 1.0,
+        "fpr": 0.9982817869415808,
+        "ppv": 0.1986206896551724,
+        "balanced_accuracy": 0.5008591065292096,
+        "roc_auc": 0.5215253913707522,
+        "average_precision": 0.20817497720922207,
+        "confusion_matrix_tn_fp_fn_tp": [
+          1,
+          581,
+          0,
+          144
+        ],
+        "selection_rate_ci95": [
+          0.9922394515302213,
+          0.9997568118361637
+        ],
+        "tpr_ci95": [
+          0.9740163628569635,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.990332313799759,
+          0.9996966287874506
+        ],
+        "ppv_ci95": [
+          0.17120133775178994,
+          0.22921696349702994
+        ]
+      },
+      {
+        "group": "Female/26-35",
+        "n": 956,
+        "positives": 175,
+        "negatives": 781,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 1.0,
+        "tpr": 1.0,
+        "fpr": 1.0,
+        "ppv": 0.18305439330543932,
+        "balanced_accuracy": 0.5,
+        "roc_auc": 0.4966672763855863,
+        "average_precision": 0.19556519568981875,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          781,
+          0,
+          175
+        ],
+        "selection_rate_ci95": [
+          0.995997819446751,
+          0.9999999999999999
+        ],
+        "tpr_ci95": [
+          0.9785203115316479,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.9951054333617055,
+          1.0
+        ],
+        "ppv_ci95": [
+          0.1598255803338218,
+          0.20882015336415802
+        ]
+      },
+      {
+        "group": "Female/36-45",
+        "n": 921,
+        "positives": 176,
+        "negatives": 745,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 1.0,
+        "tpr": 1.0,
+        "fpr": 1.0,
+        "ppv": 0.19109663409337677,
+        "balanced_accuracy": 0.5,
+        "roc_auc": 0.49906192800488103,
+        "average_precision": 0.18432407313773683,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          745,
+          0,
+          176
+        ],
+        "selection_rate_ci95": [
+          0.9958463596283924,
+          1.0
+        ],
+        "tpr_ci95": [
+          0.9786397483323124,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.9948701306859483,
+          1.0
+        ],
+        "ppv_ci95": [
+          0.16700825413347078,
+          0.21775116103639322
+        ]
+      },
+      {
+        "group": "Female/46-55",
+        "n": 924,
+        "positives": 172,
+        "negatives": 752,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 1.0,
+        "tpr": 1.0,
+        "fpr": 1.0,
+        "ppv": 0.18614718614718614,
+        "balanced_accuracy": 0.5,
+        "roc_auc": 0.4723450643245918,
+        "average_precision": 0.1887821852853537,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          752,
+          0,
+          172
+        ],
+        "selection_rate_ci95": [
+          0.995859789639518,
+          1.0
+        ],
+        "tpr_ci95": [
+          0.9781538503692052,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.99491763943898,
+          1.0
+        ],
+        "ppv_ci95": [
+          0.16236841518360626,
+          0.21252479045392572
+        ]
+      },
+      {
+        "group": "Female/56-65",
+        "n": 915,
+        "positives": 187,
+        "negatives": 728,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 1.0,
+        "tpr": 1.0,
+        "fpr": 1.0,
+        "ppv": 0.20437158469945355,
+        "balanced_accuracy": 0.5,
+        "roc_auc": 0.4697288006111535,
+        "average_precision": 0.20008559762488062,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          728,
+          0,
+          187
+        ],
+        "selection_rate_ci95": [
+          0.9958192365137456,
+          0.9999999999999999
+        ],
+        "tpr_ci95": [
+          0.9798709418570136,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.9947509685678584,
+          1.0
+        ],
+        "ppv_ci95": [
+          0.17950512779639244,
+          0.2317099465708901
+        ]
+      },
+      {
+        "group": "Female/66-70",
+        "n": 459,
+        "positives": 96,
+        "negatives": 363,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 1.0,
+        "tpr": 1.0,
+        "fpr": 1.0,
+        "ppv": 0.20915032679738563,
+        "balanced_accuracy": 0.5,
+        "roc_auc": 0.4306129476584022,
+        "average_precision": 0.19031589762031959,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          363,
+          0,
+          96
+        ],
+        "selection_rate_ci95": [
+          0.9917002706920811,
+          1.0
+        ],
+        "tpr_ci95": [
+          0.9615244121423243,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.9895282860529357,
+          1.0
+        ],
+        "ppv_ci95": [
+          0.17443404079180974,
+          0.2486945599167184
+        ]
+      },
+      {
+        "group": "Male/18-25",
+        "n": 797,
+        "positives": 174,
+        "negatives": 623,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 1.0,
+        "tpr": 1.0,
+        "fpr": 1.0,
+        "ppv": 0.21831869510664995,
+        "balanced_accuracy": 0.5,
+        "roc_auc": 0.4986531613807863,
+        "average_precision": 0.2160183945500116,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          623,
+          0,
+          174
+        ],
+        "selection_rate_ci95": [
+          0.995203221838251,
+          0.9999999999999999
+        ],
+        "tpr_ci95": [
+          0.9783995315481122,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.9938717218418813,
+          1.0
+        ],
+        "ppv_ci95": [
+          0.19102683251430483,
+          0.2483128831627657
+        ]
+      },
+      {
+        "group": "Male/26-35",
+        "n": 926,
+        "positives": 162,
+        "negatives": 764,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 1.0,
+        "tpr": 1.0,
+        "fpr": 1.0,
+        "ppv": 0.17494600431965443,
+        "balanced_accuracy": 0.5,
+        "roc_auc": 0.4909023333979704,
+        "average_precision": 0.17571998556662868,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          764,
+          0,
+          162
+        ],
+        "selection_rate_ci95": [
+          0.9958686948358204,
+          1.0
+        ],
+        "tpr_ci95": [
+          0.9768365591570956,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.9949970677194299,
+          1.0
+        ],
+        "ppv_ci95": [
+          0.1518325006324724,
+          0.20074530250881922
+        ]
+      },
+      {
+        "group": "Male/36-45",
+        "n": 911,
+        "positives": 171,
+        "negatives": 740,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 0.9989023051591658,
+        "tpr": 1.0,
+        "fpr": 0.9986486486486487,
+        "ppv": 0.1879120879120879,
+        "balanced_accuracy": 0.5006756756756757,
+        "roc_auc": 0.5131657973763237,
+        "average_precision": 0.19322325892635378,
+        "confusion_matrix_tn_fp_fn_tp": [
+          1,
+          739,
+          0,
+          171
+        ],
+        "selection_rate_ci95": [
+          0.9938085820195701,
+          0.9998062036196551
+        ],
+        "tpr_ci95": [
+          0.9780289020315618,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.992385489952238,
+          0.9997614134618913
+        ],
+        "ppv_ci95": [
+          0.16386258394172373,
+          0.21458540119018318
+        ]
+      },
+      {
+        "group": "Male/46-55",
+        "n": 923,
+        "positives": 181,
+        "negatives": 742,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 0.9989165763813651,
+        "tpr": 1.0,
+        "fpr": 0.9986522911051213,
+        "ppv": 0.1963123644251627,
+        "balanced_accuracy": 0.5006738544474394,
+        "roc_auc": 0.4843338148352221,
+        "average_precision": 0.19655307557515123,
+        "confusion_matrix_tn_fp_fn_tp": [
+          1,
+          741,
+          0,
+          181
+        ],
+        "selection_rate_ci95": [
+          0.9938887327546669,
+          0.9998087235199725
+        ],
+        "tpr_ci95": [
+          0.979217547593473,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.9924059051083036,
+          0.9997620566594287
+        ],
+        "ppv_ci95": [
+          0.17195570573359725,
+          0.22318911667119196
+        ]
+      },
+      {
+        "group": "Male/56-65",
+        "n": 908,
+        "positives": 192,
+        "negatives": 716,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 0.998898678414097,
+        "tpr": 0.9947916666666666,
+        "fpr": 1.0,
+        "ppv": 0.2105843439911797,
+        "balanced_accuracy": 0.4973958333333333,
+        "roc_auc": 0.5419576350093109,
+        "average_precision": 0.23551227562054694,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          716,
+          1,
+          191
+        ],
+        "selection_rate_ci95": [
+          0.9937882147565873,
+          0.9998055632360816
+        ],
+        "tpr_ci95": [
+          0.9710925028432594,
+          0.9990800088615152
+        ],
+        "fpr_ci95": [
+          0.9946634654428107,
+          0.9999999999999999
+        ],
+        "ppv_ci95": [
+          0.18529837814616634,
+          0.23831152134200556
+        ]
+      },
+      {
+        "group": "Male/66-70",
+        "n": 460,
+        "positives": 107,
+        "negatives": 353,
+        "suppressed": false,
+        "reason": null,
+        "selection_rate": 1.0,
+        "tpr": 1.0,
+        "fpr": 1.0,
+        "ppv": 0.2326086956521739,
+        "balanced_accuracy": 0.5,
+        "roc_auc": 0.48653729051388633,
+        "average_precision": 0.2562175907950811,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          353,
+          0,
+          107
+        ],
+        "selection_rate_ci95": [
+          0.9917181641536291,
+          0.9999999999999999
+        ],
+        "tpr_ci95": [
+          0.9653427619812514,
+          1.0
+        ],
+        "fpr_ci95": [
+          0.9892348304107108,
+          1.0
+        ],
+        "ppv_ci95": [
+          0.1963104961120031,
+          0.27333587697105605
+        ]
+      }
+    ]
+  },
+  "disparities": {
+    "Gender": {
+      "selection_rate_gap": 0.00040509706399916023,
+      "tpr_gap": 0.0010131712259371373,
+      "fpr_gap": 0.00025477153536102026,
+      "ppv_gap": 0.006447520088897013,
+      "balanced_accuracy_gap": 0.000379199845288114,
+      "roc_auc_gap": 0.022603854015102287,
+      "average_precision_gap": 0.014465655611878181,
+      "equalized_odds_gap": 0.0010131712259371373
+    },
+    "AgeBand": {
+      "selection_rate_gap": 0.0006565988181220783,
+      "tpr_gap": 0.0026385224274406704,
+      "fpr_gap": 0.0008298755186721962,
+      "ppv_gap": 0.0418274495564763,
+      "balanced_accuracy_gap": 0.0017341989730564333,
+      "roc_auc_gap": 0.04740300245281315,
+      "average_precision_gap": 0.039960258932805665,
+      "equalized_odds_gap": 0.0026385224274406704
+    },
+    "GenderAge": {
+      "selection_rate_gap": 0.0013774104683195176,
+      "tpr_gap": 0.00520833333333337,
+      "fpr_gap": 0.0017182130584192379,
+      "ppv_gap": 0.05766269133251947,
+      "balanced_accuracy_gap": 0.003463273195876304,
+      "roc_auc_gap": 0.11134468735090874,
+      "average_precision_gap": 0.08049760522845242,
+      "equalized_odds_gap": 0.00520833333333337
+    }
+  },
+  "support_rule": {
+    "min_group_n": 50,
+    "min_positive_n": 20,
+    "min_negative_n": 20
+  },
+  "limitations": [
+    "Faker synthetic customer labels are not representative of protected real populations.",
+    "Gender only has Male/Female; Age range 18-70. These are dataset categories, not an exhaustive identity taxonomy.",
+    "The label lacks an effective timestamp; not prospective churn prediction.",
+    "FPR/TPR or demographic parity near equal can be VACUOUS when almost every customer is predicted churn.",
+    "Differences are descriptive; no hypothesis tests or legal fairness thresholds are claimed.",
+    "Post-hoc fairness evaluation does not fix low model discrimination (ROC-AUC approximately 0.5)."
+  ],
+  "provenance": {
+    "phase5_metric_reproduction": {
+      "classification_decisions_match": true,
+      "ranking_metric_abs_tolerance": 0.005,
+      "ranking_metrics_exact_match": true,
+      "differences_current_minus_phase5": {
+        "ROC_AUC": 0.0,
+        "PR_AUC_average_precision": 0.0,
+        "F1": 0.0
+      },
+      "phase5_original_roc_auc": 0.4948531813344853,
+      "recomputed_roc_auc": 0.4948531813344853
+    },
+    "phase5_model": "Random Forest",
+    "phase5_snapshot_cutoff_exclusive": "2023-01-01T00:00:00",
+    "frozen_training_seed": 42,
+    "features_count": 19,
+    "model_retrained_for_audit": true,
+    "model_selection_or_threshold_tuning_in_phase6": false,
+    "synthetic_data": true,
+    "label_timestamp_known": false
+  }
+}

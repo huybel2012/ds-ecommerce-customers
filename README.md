@@ -105,3 +105,12 @@ Uses **only** `data/processed/ecommerce_customer_clean.csv` from Phase 2. Fixed 
 ```
 
 Train-only diagnostics: 19 vs 28 pre-cutoff behavioral features, Logistic Regression and HistGradientBoosting, repeated grouped CV, univariate signal, shuffled-label negative controls, and pre-declared performance screen. **Does not evaluate the previously inspected Phase 5 holdout, replace the official W11 report, or claim prospective churn prediction.** See [Phase 5.1 runbook](docs/phase51_runbook.md).
+
+## Phase 6 — Ethics, Fairness & Responsible AI (W12)
+
+```powershell
+.\venv\Scripts\python.exe -m src.run_phase6 --dry-run
+.\venv\Scripts\python.exe -m src.run_phase6
+```
+
+The runner uses the **frozen Phase 5 Random Forest, same customer holdout and threshold**. It checks that the original model metrics are reproduced, then reports post-hoc Gender/Age/intersectional metrics. It does not train a new production model or certify fairness. Results: `reports/phase6/ethics_and_bias.md`, `model_card.md`, `fairness_metrics.json`. Read `docs/phase6_runbook.md`, `docs/ethics_checklist.md`, `docs/ai_usage_disclosure.md` and `docs/scalability_assessment.md`. Dataset license and legacy files containing synthetic names require human review before wider distribution.
