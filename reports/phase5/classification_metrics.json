@@ -1,0 +1,232 @@
+{
+  "seed": 42,
+  "train_customers": 39302,
+  "test_customers": 9826,
+  "positive_rate_train": 0.2009566943158109,
+  "positive_rate_test": 0.1971300630979035,
+  "split": "GroupShuffleSplit by Customer ID, one feature row/customer; 20% holdout",
+  "cv": "StratifiedGroupKFold(3) on training customers only",
+  "model_selection": "Max training-only out-of-fold F1; no test set tuning",
+  "threshold_optimization": "Training OOF F1 across thresholds 0.05-0.95 (step 0.025)",
+  "models": {
+    "Prior baseline": {
+      "train_oof_F1": null,
+      "threshold_source": "Fixed 0.5, no tuning",
+      "test": {
+        "threshold": 0.5,
+        "accuracy": 0.8028699369020965,
+        "balanced_accuracy": 0.5,
+        "precision": 0.0,
+        "recall": 0.0,
+        "F1": 0.0,
+        "ROC_AUC": 0.5,
+        "PR_AUC_average_precision": 0.1971300630979035,
+        "Brier": 0.15828444442739795,
+        "confusion_matrix_tn_fp_fn_tp": [
+          7889,
+          0,
+          1937,
+          0
+        ]
+      }
+    },
+    "All-positive baseline": {
+      "train_oof_F1": null,
+      "threshold_source": "Fixed 0.5, no tuning",
+      "test": {
+        "threshold": 0.5,
+        "accuracy": 0.1971300630979035,
+        "balanced_accuracy": 0.5,
+        "precision": 0.1971300630979035,
+        "recall": 1.0,
+        "F1": 0.3293377539743263,
+        "ROC_AUC": 0.5,
+        "PR_AUC_average_precision": 0.1971300630979035,
+        "Brier": 0.8028699369020965,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          7889,
+          0,
+          1937
+        ]
+      }
+    },
+    "Logistic Regression": {
+      "train_oof_F1": 0.33466101694915257,
+      "threshold_source": "Training-only grouped out-of-fold F1",
+      "test": {
+        "threshold": 0.05,
+        "accuracy": 0.1971300630979035,
+        "balanced_accuracy": 0.5,
+        "precision": 0.1971300630979035,
+        "recall": 1.0,
+        "F1": 0.3293377539743263,
+        "ROC_AUC": 0.4930290852171714,
+        "PR_AUC_average_precision": 0.19119116451853566,
+        "Brier": 0.15844043570556784,
+        "confusion_matrix_tn_fp_fn_tp": [
+          0,
+          7889,
+          0,
+          1937
+        ]
+      },
+      "test_at_0_5": {
+        "threshold": 0.5,
+        "accuracy": 0.8028699369020965,
+        "balanced_accuracy": 0.5,
+        "precision": 0.0,
+        "recall": 0.0,
+        "F1": 0.0,
+        "ROC_AUC": 0.4930290852171714,
+        "PR_AUC_average_precision": 0.19119116451853566,
+        "Brier": 0.15844043570556784,
+        "confusion_matrix_tn_fp_fn_tp": [
+          7889,
+          0,
+          1937,
+          0
+        ]
+      }
+    },
+    "Random Forest": {
+      "train_oof_F1": 0.3347191583234346,
+      "threshold_source": "Training-only grouped out-of-fold F1",
+      "test": {
+        "threshold": 0.375,
+        "accuracy": 0.19733360472216568,
+        "balanced_accuracy": 0.49993200703645374,
+        "precision": 0.1971085318672368,
+        "recall": 0.9994837377387713,
+        "F1": 0.3292797006548176,
+        "ROC_AUC": 0.4948531813344853,
+        "PR_AUC_average_precision": 0.19649560618418155,
+        "Brier": 0.24479390757004946,
+        "confusion_matrix_tn_fp_fn_tp": [
+          3,
+          7886,
+          1,
+          1936
+        ]
+      },
+      "test_at_0_5": {
+        "threshold": 0.5,
+        "accuracy": 0.6102177895379605,
+        "balanced_accuracy": 0.49687386153504554,
+        "precision": 0.19398642095053345,
+        "recall": 0.3097573567372225,
+        "F1": 0.23856858846918488,
+        "ROC_AUC": 0.4948531813344853,
+        "PR_AUC_average_precision": 0.19649560618418155,
+        "Brier": 0.24479390757004946,
+        "confusion_matrix_tn_fp_fn_tp": [
+          5396,
+          2493,
+          1337,
+          600
+        ]
+      }
+    }
+  },
+  "feature_columns": [
+    "transaction_count",
+    "active_days",
+    "categories_count",
+    "payment_methods_count",
+    "quantity_mean",
+    "quantity_sum",
+    "unit_price_mean",
+    "recorded_amount_mean",
+    "calculated_line_value_mean",
+    "recency_days",
+    "history_span_days",
+    "category_share_books",
+    "category_share_clothing",
+    "category_share_electronics",
+    "category_share_home",
+    "payment_share_cash",
+    "payment_share_credit_card",
+    "payment_share_crypto",
+    "payment_share_paypal"
+  ],
+  "n_features": 19,
+  "train_all_positive_f1": 0.33466101694915257,
+  "selected_by_train_only": "Random Forest",
+  "selected_train_oof_f1_gain_vs_all_positive": 5.814137428200583e-05,
+  "selected_train_oof_beats_all_positive": true,
+  "selected_holdout_f1_gain_vs_all_positive": -5.805331950869963e-05,
+  "deployment_recommendation": "NOT FOR DEPLOYMENT: synthetic static Churn label has no event timestamp.",
+  "selected_holdout_ci95": {
+    "F1": [
+      0.3174995576227246,
+      0.339265937066092
+    ],
+    "ROC_AUC": [
+      0.48017524629785424,
+      0.5101057766592904
+    ],
+    "PR_AUC_average_precision": [
+      0.18456012442143513,
+      0.20915748646025556
+    ]
+  },
+  "limitations": [
+    "Synthetic Kaggle sample: not evidence of real-world performance.",
+    "Static churn labels lack event/effective timestamp. Predicting future churn is NOT validated.",
+    "Cutoff restricts feature history only; does not establish temporal validity of labels.",
+    "Recorded amount/currency semantics remain unverified; no causal interpretation.",
+    "No Returns, missingness flags, customer identifiers, demographic attributes, or names used as predictors.",
+    "Model/threshold selected only using training OOF; holdout evaluated once."
+  ],
+  "feature_audit": {
+    "cutoff_exclusive": "2023-01-01T00:00:00",
+    "total_transactions": 250000,
+    "history_transactions": 202313,
+    "excluded_post_cutoff_transactions": 47687,
+    "total_customers": 49673,
+    "eligible_customers": 49128,
+    "ineligible_customers": 545,
+    "positive_customers": 9835,
+    "positive_rate": 0.20019133691581176,
+    "latest_feature_transaction": "2022-12-31T23:56:35",
+    "label_timestamp_known": false,
+    "prospective_claim_permitted": false,
+    "feature_columns": [
+      "transaction_count",
+      "active_days",
+      "categories_count",
+      "payment_methods_count",
+      "quantity_mean",
+      "quantity_sum",
+      "unit_price_mean",
+      "recorded_amount_mean",
+      "calculated_line_value_mean",
+      "recency_days",
+      "history_span_days",
+      "category_share_books",
+      "category_share_clothing",
+      "category_share_electronics",
+      "category_share_home",
+      "payment_share_cash",
+      "payment_share_credit_card",
+      "payment_share_crypto",
+      "payment_share_paypal"
+    ],
+    "forbidden_predictors": [
+      "Age",
+      "Churn",
+      "Customer Age",
+      "Customer ID",
+      "Customer Name",
+      "Gender",
+      "Purchase Date",
+      "Returns",
+      "Returns_was_missing"
+    ],
+    "source_limitation": "Static Churn label lacks a timestamp; retrospective synthetic classification only."
+  },
+  "subgroup_columns_available_for_phase6": [
+    "Gender",
+    "Age"
+  ]
+}

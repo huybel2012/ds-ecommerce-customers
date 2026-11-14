@@ -36,3 +36,6 @@ reports/figures/phase3_visualization_manifest.json
 
 # Phase 4 reproducibility manifest contains machine-specific absolute timestamps
 reports/phase4/run_manifest.json
+
+# Phase 5 local reproducibility manifest with absolute machine paths
+reports/phase5/run_manifest.json

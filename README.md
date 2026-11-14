@@ -47,7 +47,7 @@ Hoặc làm lại cả cleaning + EDA từ Kaggle raw: `python -m src.run_pipeli
 
 **Metric contract:** Dashboard dùng `Total Purchase Amount` như một **giá trị ghi nhận** (đơn vị tiền chưa xác minh), **không** coi là doanh thu USD thực. Churn tính mỗi `Customer ID` **một lần**; tỷ lệ Returns chỉ trên dòng đã quan sát (`NULL` không phải 0). Tháng cuối không đầy đủ được đánh dấu, bảng không hiển thị `Customer Name`. Không dùng `ecommerce_customer_cleaned.csv` legacy làm fallback. Xem [Phase 3 runbook](docs/phase3_runbook.md), [Visualization Audit](reports/phase3/visualization_audit.md) và [Data Dictionary](docs/data_dictionary.md).
 
-Các báo cáo W9–W10 và hình 06–09 chưa được tính lại theo metric contract và sẽ được đánh giá trong Phase 4.
+Các báo cáo W9–W10 và hình 06–09 đã được cập nhật trong Phase 4 (xem phần Phase 4 bên dưới).
 
 ## Repository
 
@@ -87,3 +87,12 @@ python -m src.run_phase4
 ```
 
 Results: `reports/hypothesis_tests.md`, `reports/regression_results.md`, figures `06`–`09` and machine-readable metrics under `reports/phase4/`. See `docs/phase4_runbook.md` and the **proposal-only** `docs/ab_test_design.md`. The dataset is **synthetic**, currency/recorded-amount semantics are unresolved and this analysis is not evidence about real-world treatment effects. These scripts reject the old processed CSV with filled-in `Returns`.
+
+## Phase 5: Classification & Feature Engineering (W11)
+
+```powershell
+.\venv\Scripts\python.exe -m src.run_phase5 --dry-run
+.\venv\Scripts\python.exe -m src.run_phase5
+```
+
+Uses **only** `data/processed/ecommerce_customer_clean.csv` from Phase 2. Fixed pre-2023 observation cutoff; customer-level grouped holdout/CV; prior and all-positive baselines vs Logistic Regression vs Random Forest; F1, ROC-AUC, PR-AUC, confusion matrices and uncertainty. Outputs under `reports/phase5/`, `reports/classification_results.md` and figures `10`–`12`. See [Phase 5 runbook](docs/phase5_runbook.md) and [churn label assessment](docs/churn_label_assessment.md). **IMPORTANT:** The Kaggle synthetic `Churn` labels have no event timestamp; this is retrospective classification, NOT validated forecasting of future churn.
