@@ -76,3 +76,14 @@ requirements.txt
 ## Nhóm và kết quả cuối kỳ
 
 Phân công thành viên, tổng hợp insight và tài liệu bảo vệ sẽ hoàn thiện trong Phase 7. Đừng dùng các báo cáo mẫu hiện có thay cho kết luận cuối khi chưa qua validation.
+
+## Phase 4: Statistical Inference & Regression (W9–W10)
+
+Run after Phase 2 creates `data/processed/ecommerce_customer_clean.csv`:
+
+```bash
+python -m src.run_phase4 --dry-run
+python -m src.run_phase4
+```
+
+Results: `reports/hypothesis_tests.md`, `reports/regression_results.md`, figures `06`–`09` and machine-readable metrics under `reports/phase4/`. See `docs/phase4_runbook.md` and the **proposal-only** `docs/ab_test_design.md`. The dataset is **synthetic**, currency/recorded-amount semantics are unresolved and this analysis is not evidence about real-world treatment effects. These scripts reject the old processed CSV with filled-in `Returns`.

@@ -33,3 +33,6 @@ reports/phase2/
 
 # Phase 3 generated manifest (five report figures 01-05 remain tracked)
 reports/figures/phase3_visualization_manifest.json
+
+# Phase 4 reproducibility manifest contains machine-specific absolute timestamps
+reports/phase4/run_manifest.json

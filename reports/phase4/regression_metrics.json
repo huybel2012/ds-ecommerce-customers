@@ -1,0 +1,63 @@
+{
+  "dataset": "Phase 2 validated cleaned CSV",
+  "source_type": "synthetic",
+  "target": "Total Purchase Amount",
+  "currency": "unverified",
+  "target_semantics": "unresolved vs Product Price x Quantity",
+  "excluded_features": [
+    "Returns (missing and post-purchase)",
+    "Churn (post-outcome and customer attribute)",
+    "Customer ID (split only)",
+    "Purchase Date (not included for baseline comparability)"
+  ],
+  "features": [
+    "Product Price",
+    "Quantity",
+    "Age",
+    "Product Category",
+    "Payment Method",
+    "Gender"
+  ],
+  "seed": 42,
+  "n_train_rows": 199771,
+  "n_test_rows": 50229,
+  "n_train_customers": 39738,
+  "n_test_customers": 9935,
+  "no_customer_overlap": true,
+  "models": {
+    "Baseline (mean)": {
+      "MAE": 1251.4014777933696,
+      "RMSE": 1445.0417789193143,
+      "R2": -1.9704269051956658e-06
+    },
+    "OLS": {
+      "MAE": 1250.1095452491923,
+      "RMSE": 1442.7104106174472,
+      "R2": 0.003222147050145896
+    },
+    "Ridge": {
+      "MAE": 1250.112950765276,
+      "RMSE": 1442.713547357038,
+      "R2": 0.0032178126585304945
+    },
+    "Lasso": {
+      "MAE": 1250.1896995357747,
+      "RMSE": 1442.8166702572719,
+      "R2": 0.0030753107129145585
+    }
+  },
+  "ridge_best_alpha": 1000.0,
+  "lasso_best_alpha": 10.0,
+  "grouped_cv_folds": 3,
+  "train_ols_R2": 0.002594072555417992,
+  "ols_mae_gain_over_baseline": 1.2919325441773708,
+  "ols_mae_gain_cluster_bootstrap_ci95": [
+    0.6347724280363396,
+    1.9466702582971358
+  ],
+  "coefficient_inference": "Customer cluster-robust CR1; t df = n_customers_train-1",
+  "n_influential_cooks_4_over_n": 1499,
+  "max_vif": 1.3983054222628122,
+  "returns_missing_in_input": 47596,
+  "amount_mismatches": 249952
+}

@@ -1,0 +1,137 @@
+{
+  "source_type": "synthetic",
+  "currency": "unverified",
+  "alpha": 0.05,
+  "status": "exploratory, hypotheses previously inspected",
+  "rows": 250000,
+  "customers": 49673,
+  "H1": {
+    "unit": "customer",
+    "n_male": 24715,
+    "n_female": 24958,
+    "male_rate": 0.20295367185919483,
+    "female_rate": 0.19737158426155943,
+    "difference_pp": 0.5582087597635399,
+    "ci95_pp": [
+      -0.14553729239536428,
+      1.261954811922444
+    ],
+    "cohen_h": 0.013951270516134318,
+    "z": 1.554677855397375,
+    "p": 0.12002281117233032,
+    "holm_p_fwer_3_tests": 0.24004562234466065
+  },
+  "H2": {
+    "unit": "customer",
+    "n_churn": 9942,
+    "n_retained": 39731,
+    "mean_churn": 2727.8907126844047,
+    "mean_retained": 2723.8291713315066,
+    "difference": 4.061541352898075,
+    "ci95": [
+      -12.169657638836199,
+      20.29274034463235
+    ],
+    "cohen_d": 0.00551076503156755,
+    "t": 0.4904817011820197,
+    "p": 0.623800126251174,
+    "df": 15262.979801179532,
+    "holm_p_fwer_3_tests": 0.623800126251174
+  },
+  "H3": {
+    "unit": "transaction (SE clustered by customer)",
+    "categories": [
+      "Books",
+      "Clothing",
+      "Electronics",
+      "Home"
+    ],
+    "means": {
+      "Books": 2735.7379458564715,
+      "Clothing": 2725.2092549165914,
+      "Electronics": 2721.9182425027398,
+      "Home": 2713.5104611742995
+    },
+    "counts": {
+      "Books": 74912,
+      "Clothing": 75052,
+      "Electronics": 50185,
+      "Home": 49851
+    },
+    "cluster_n": 49673,
+    "cluster_robust_wald_chi2": 7.569763312250516,
+    "df": 3,
+    "p": 0.05579277034350028,
+    "eta_squared_descriptive": 3.0093364276372008e-05,
+    "pairs_exploratory": [
+      {
+        "pair": "Books vs Clothing",
+        "difference": 10.528690939880107,
+        "ci95_simultaneous_bonferroni": [
+          -9.195732352366914,
+          30.25311423212713
+        ],
+        "raw_p": 0.15904990693539034,
+        "holm_p": 0.6361996277415614
+      },
+      {
+        "pair": "Books vs Electronics",
+        "difference": 13.819703353731711,
+        "ci95_simultaneous_bonferroni": [
+          -8.12403127528924,
+          35.76343798275266
+        ],
+        "raw_p": 0.09660924822267196,
+        "holm_p": 0.4830462411133598
+      },
+      {
+        "pair": "Books vs Home",
+        "difference": 22.227484682171962,
+        "ci95_simultaneous_bonferroni": [
+          0.27869556560047215,
+          44.17627379874345
+        ],
+        "raw_p": 0.007545534798233341,
+        "holm_p": 0.04527320878940005
+      },
+      {
+        "pair": "Clothing vs Electronics",
+        "difference": 3.291012413851604,
+        "ci95_simultaneous_bonferroni": [
+          -18.81447657662299,
+          25.396501404326198
+        ],
+        "raw_p": 0.6944838665004944,
+        "holm_p": 0.7152227768480126
+      },
+      {
+        "pair": "Clothing vs Home",
+        "difference": 11.698793742291855,
+        "ci95_simultaneous_bonferroni": [
+          -10.300868510134144,
+          33.698455994717854
+        ],
+        "raw_p": 0.16063172872837106,
+        "holm_p": 0.6361996277415614
+      },
+      {
+        "pair": "Electronics vs Home",
+        "difference": 8.407781328440251,
+        "ci95_simultaneous_bonferroni": [
+          -15.70490630397697,
+          32.52046896085747
+        ],
+        "raw_p": 0.3576113884240063,
+        "holm_p": 0.7152227768480126
+      }
+    ],
+    "mean_se_clustered": {
+      "Books": 5.286973848967675,
+      "Clothing": 5.3110672909118435,
+      "Electronics": 6.464409200721685,
+      "Home": 6.445446632785969
+    },
+    "naive_anova_p_diagnostic_only": 0.056961543046776864,
+    "holm_p_fwer_3_tests": 0.16737831103050085
+  }
+}
