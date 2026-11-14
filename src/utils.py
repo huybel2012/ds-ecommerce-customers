@@ -100,3 +100,82 @@ def log_cleaning_step(log: list, step: str, column: str, finding: str,
         "step": step, "column": column, "finding": finding,
         "action": action, "n_rows": n_rows, "why": reason,
     })
+
+# ============ Phase 2 — Reproducible raw-data contract ============
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+RAW_FILENAME = "ecommerce_customer_data_custom_ratios.csv"
+RAW_DATA_PATH = REPO_ROOT / "data" / "raw" / RAW_FILENAME
+
+EXPECTED_COLUMNS = (
+    "Customer ID", "Purchase Date", "Product Category", "Product Price",
+    "Quantity", "Total Purchase Amount", "Payment Method", "Customer Age",
+    "Returns", "Customer Name", "Age", "Gender", "Churn",
+)
+
+
+def unexpected_columns(frame: pd.DataFrame) -> list[str]:
+    """Return columns outside the documented 13-column raw schema."""
+    return [col for col in frame.columns if col not in EXPECTED_COLUMNS]
+
+
+def validate_schema(frame: pd.DataFrame) -> pd.DataFrame:
+    """A non-mutating, per-column schema audit for the original Kaggle CSV."""
+    rows = []
+    for column in EXPECTED_COLUMNS:
+        present = column in frame.columns
+        rows.append({
+            "column": column,
+            "present": present,
+            "dtype": str(frame[column].dtype) if present else "MISSING",
+            "n_missing": int(frame[column].isna().sum()) if present else None,
+        })
+    for column in unexpected_columns(frame):
+        rows.append({
+            "column": column,
+            "present": True,
+            "dtype": str(frame[column].dtype),
+            "n_missing": int(frame[column].isna().sum()),
+        })
+    return pd.DataFrame(rows)
+
+
+def binary_domain_report(frame: pd.DataFrame, columns=("Returns", "Churn")) -> pd.DataFrame:
+    """Report invalid observed binary values; missing is separate from invalid."""
+    rows = []
+    for column in columns:
+        if column not in frame:
+            rows.append({"column": column, "n_missing": None,
+                         "n_invalid": None, "observed_values": "COLUMN_MISSING"})
+            continue
+        values = pd.to_numeric(frame[column], errors="coerce")
+        invalid = frame[column].notna() & (~values.isin([0, 1]))
+        rows.append({
+            "column": column,
+            "n_missing": int(frame[column].isna().sum()),
+            "n_invalid": int(invalid.sum()),
+            "observed_values": str(sorted(values.dropna().unique().tolist())),
+        })
+    return pd.DataFrame(rows)
+
+
+def load_ecommerce_raw(path: str | Path | None = None) -> pd.DataFrame:
+    """Read only the exact raw Kaggle file; never silently use processed data.
+
+    The raw dataset is intentionally not committed. Missing raw data must fail
+    with actionable instructions instead of fabricating a source from processed CSV.
+    """
+    source = Path(path) if path is not None else RAW_DATA_PATH
+    if not source.is_file():
+        raise FileNotFoundError(
+            f"Required raw dataset is missing: {source}\n"
+            "Download the Kaggle dataset and place "
+            f"{RAW_FILENAME} in data/raw/. "
+            "See docs/phase2_runbook.md. No processed CSV is an acceptable substitute."
+        )
+    frame = pd.read_csv(source, low_memory=False)
+    missing = [name for name in EXPECTED_COLUMNS if name not in frame.columns]
+    if missing:
+        raise ValueError(f"Raw schema is missing columns: {missing} (source: {source})")
+    return frame

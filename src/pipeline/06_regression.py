@@ -15,6 +15,7 @@ Chạy từ thư mục gốc của project:
 (statsmodels không bắt buộc: OLS + CI + HC3 + Breusch-Pagan được tính bằng numpy/scipy.)
 """
 import os
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -30,9 +31,10 @@ from sklearn.model_selection import GroupShuffleSplit, GroupKFold, GridSearchCV
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-DATA = "data/processed/ecommerce_customer_cleaned.csv"
-FIG_DIR = "reports/figures"
-OUT_MD = "reports/regression_results.md"
+ROOT = Path(__file__).resolve().parents[2]
+DATA = ROOT / "data/processed/ecommerce_customer_cleaned.csv"
+FIG_DIR = ROOT / "reports/figures"
+OUT_MD = ROOT / "reports/regression_results.md"
 os.makedirs(FIG_DIR, exist_ok=True)
 
 TARGET = "Total Purchase Amount"
