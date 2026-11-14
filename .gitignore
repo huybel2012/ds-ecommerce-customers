@@ -2,3 +2,5 @@ venv/
 __pycache__/
 .ipynb_checkpoints/
 data/raw/*.csv
+# Generated Phase 1 validated dataset (rebuild from tracked sources)
+data/processed/ecommerce_customer_integrity.csv
