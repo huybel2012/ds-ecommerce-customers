@@ -26,3 +26,5 @@ jobs:
         run: python -m src.run_phase5 --dry-run
       - name: Fairness audit preflight
         run: python -m src.run_phase6 --dry-run
+      - name: Final documentation and delivery preflight
+        run: python -m src.run_phase7 --dry-run

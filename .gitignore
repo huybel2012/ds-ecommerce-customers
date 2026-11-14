@@ -45,3 +45,6 @@ reports/phase5/phase51_run_manifest.json
 
 # Phase 6 private local run manifest (input hashes/timestamps)
 reports/phase6/run_manifest.json
+
+# Optional local version capture from Phase 7 reproducibility guide
+environment_local.txt

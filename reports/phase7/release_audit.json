@@ -1,0 +1,57 @@
+{
+  "scope": "INFO3020 W1-W12 (W8 and exercise-only tasks excluded), Phase 7 without merge",
+  "base_reference_commit": "2ab6bae",
+  "technical_ready": true,
+  "release_clearance": "NOT_CLEARED_FOR_PUBLIC_DATA_REDISTRIBUTION",
+  "merge_status": "DEFERRED_BY_USER",
+  "checks": {
+    "required_documents_present": true,
+    "frozen_evidence_present": true,
+    "all_14_figures_present": true,
+    "integrity_data_counts": true,
+    "w9_holm_family_result": true,
+    "w10_regression_result": true,
+    "w11_frozen_holdout": true,
+    "phase51_no_false_upgrade": true,
+    "w12_frozen_fairness_holdout": true,
+    "ai_disclosure_in_readme": true,
+    "no_main_merge_in_delivery_instructions": true
+  },
+  "missing_documents": [],
+  "missing_evidence": [],
+  "missing_figures": [],
+  "legacy_files_present": [
+    "data/processed/ecommerce_customer_cleaned.csv",
+    "data/processed/ecommerce_clean.parquet"
+  ],
+  "frozen_results": {
+    "transactions": 250000,
+    "customers": 49673,
+    "returns_missing": 47596,
+    "amount_mismatches": 249952,
+    "w9_holm_p": {
+      "H1": 0.240046,
+      "H2": 0.6238,
+      "H3": 0.167378
+    },
+    "w10_ols_test_R2": 0.003222147050145896,
+    "w10_ols_mae_gain": 1.2919325441773708,
+    "w11_model": "Random Forest",
+    "w11_threshold": 0.375,
+    "w11_roc_auc": 0.4948531813344853,
+    "w11_confusion_matrix_tn_fp_fn_tp": [
+      3,
+      7886,
+      1,
+      1936
+    ],
+    "w12_holdout_customers": 9826
+  },
+  "human_review_gates": [
+    "Dataset Kaggle license/redistribution rights: verify from primary source, record evidence.",
+    "Legacy tracked CSV/Parquet contain synthetic Customer Name/ID: approve publication or history remediation.",
+    "No measured k-anonymity claim; no real-data consent/privacy clearance.",
+    "Team identity, contribution evidence, AI-use statement and one-page model card need human sign-off.",
+    "Final Windows run on canonical clean data and CI run at Phase 7 commit require confirmation."
+  ]
+}
