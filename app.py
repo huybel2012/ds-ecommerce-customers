@@ -1,289 +1,204 @@
+"""Phase 3 Streamlit dashboard, strictly reading the validated Phase 2 CSV.
+
+Run: python -m streamlit run app.py
+No legacy CSV fallback, no stale pre-generated PNGs and no real-world revenue claims.
+"""
+from __future__ import annotations
+
+from io import BytesIO
 from pathlib import Path
+import importlib
+
+import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
 
-st.set_page_config(
-    page_title="E-Commerce Executive Dashboard",
-    page_icon="📊",
-    layout="wide",
-    initial_sidebar_state="collapsed",
+from src.eda_metrics import (
+    CLEAN_PATH, AMOUNT, category_totals, churn_segment_matrix, load_cleaned,
+    monthly_amount, summary_metrics,
 )
 
-PROJECT_ROOT = Path(__file__).resolve().parent
-CLEAN_CANDIDATES = [
-    PROJECT_ROOT / "data" / "processed" / "ecommerce_customer_clean.csv",
-    PROJECT_ROOT / "data" / "processed" / "ecommerce_customer_cleaned.csv",
-]
-DATA_PATH = next((p for p in CLEAN_CANDIDATES if p.exists()), None)
-FIGURES_DIR = PROJECT_ROOT / "reports" / "figures"
+st.set_page_config(page_title="E-Commerce · Data Science Dashboard", page_icon="📊", layout="wide")
 
-@st.cache_data
-def load_data():
-    if not DATA_PATH:
-        return None
-    data = pd.read_csv(DATA_PATH)
-    data["Purchase Date"] = pd.to_datetime(
-        data["Purchase Date"], errors="coerce"
+st.markdown("""
+<style>
+.block-container { max-width: 1500px; padding-top: 2rem; }
+h1, h2, h3 { letter-spacing: -.02em; }
+[data-testid="stMetricValue"] { font-size: 1.65rem; }
+[data-testid="stMetricLabel"] { font-weight: 600; }
+</style>
+""", unsafe_allow_html=True)
+
+
+@st.cache_data(show_spinner=False, max_entries=3)
+def read_data(path: str, stat_ns: int) -> pd.DataFrame:
+    # stat_ns invalidates the cache when Phase 2 output is regenerated.
+    return load_cleaned(Path(path))
+
+
+@st.cache_data(show_spinner=False, max_entries=3)
+def render_charts(path: str, stat_ns: int) -> dict[str, bytes]:
+    # Generate all charts from the SAME validated dataset; never use legacy PNGs.
+    df = load_cleaned(Path(path))
+    vis = importlib.import_module("src.pipeline.05_explanatory_visualization")
+    output = {}
+    for key, draw in vis.CHARTS.items():
+        figure = draw(df)
+        buffer = BytesIO()
+        try:
+            figure.savefig(buffer, format="png", dpi=130, bbox_inches="tight")
+            output[key] = buffer.getvalue()
+        finally:
+            plt.close(figure)
+    return output
+
+
+st.title("Phân tích hành vi khách hàng thương mại điện tử")
+st.caption("INFO3020 · Dữ liệu Kaggle mô phỏng · Phase 3: EDA, Visualization & Dashboard")
+st.warning(
+    "**Phạm vi diễn giải:** Dữ liệu tổng hợp (synthetic). `Total Purchase Amount` không đối soát "
+    "với `Product Price × Quantity` ở phần lớn giao dịch; đơn vị tiền chưa xác minh. "
+    "Các tổng số dưới đây không được coi là doanh thu USD thực tế.",
+    icon="⚠️",
+)
+
+if not CLEAN_PATH.is_file():
+    st.error(
+        "Chưa tìm thấy `data/processed/ecommerce_customer_clean.csv`. "
+        "Hãy đặt CSV Kaggle vào `data/raw/` rồi chạy "
+        "`python -m src.run_pipeline`. Không tự động dùng CSV legacy.",
+        icon="🛑",
     )
-    return data
-
-df = load_data()
-
-if df is None:
-    st.error("Không tìm thấy file dữ liệu sạch trong thư mục data/processed/.")
     st.stop()
 
-# ==============================================================================
-# CSS TÙY BIẾN GIAO DIỆN & ÉP CĂN GIỮA NÚT TAB THÀNH THẺ NỔI
-# ==============================================================================
-st.markdown(
-    """
-    <style>
-    /* 1. Mặc định ẩn nút Hamburger & Nút mở Sidebar góc trên */
-    [data-testid="stSidebarCollapsedControl"] {
-        display: none !important;
-    }
-    
-    /* 2. Tiêu đề căn chính giữa */
-    .dashboard-header {
-        text-align: center;
-        margin-bottom: 1.5rem;
-        width: 100%;
-    }
-    .dashboard-title {
-        font-size: 1.85rem;
-        font-weight: 700;
-        color: #f8fafc;
-        margin-bottom: 0.3rem;
-        letter-spacing: -0.02em;
-    }
-    .dashboard-subtitle {
-        color: #94a3b8;
-        font-size: 0.95rem;
-    }
+try:
+    version = CLEAN_PATH.stat().st_mtime_ns
+    df = read_data(str(CLEAN_PATH), version)
+    summary = summary_metrics(df)
+except (OSError, ValueError, TypeError) as err:
+    st.error(f"Dữ liệu không vượt qua kiểm tra Phase 3: {err}")
+    st.stop()
 
-    /* 3. CĂN GIỮA HÀNG 4 NÚT TAB VÀ TẠO KHOẢNG CÁCH DỄ NHÌN */
-    div[data-testid="stTabs"] > div:first-child,
-    div[data-testid="stTabs"] div[role="tablist"],
-    div[data-testid="stTabs"] div[data-baseweb="tab-list"] {
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        gap: 18px !important;
-        border-bottom: none !important;
-        padding: 10px 0 25px 0 !important;
-        width: 100% !important;
-    }
+st.caption(f"Nguồn đang dùng: `{CLEAN_PATH.name}` · {summary['transactions']:,} giao dịch · "
+           f"{summary['customers']:,} khách hàng · "
+           f"{summary['date_min']:%d/%m/%Y} đến {summary['date_max']:%d/%m/%Y}")
 
-    /* 4. TRIỆT TIÊU TOÀN BỘ VẠCH GẠCH ĐỎ MẶC ĐỊNH */
-    div[data-testid="stTabs"] div[data-baseweb="tab-highlight"],
-    div[data-testid="stTabs"] div[data-baseweb="tab-border"],
-    div[data-baseweb="tab-highlight"],
-    div[data-baseweb="tab-border"] {
-        display: none !important;
-        height: 0px !important;
-        background: transparent !important;
-    }
+row1 = st.columns(4)
+row1[0].metric("Tổng giá trị ghi nhận", f"{summary['reported_amount_total']/1e6:,.2f}M",
+               help="Tổng Total Purchase Amount; đơn vị tiền chưa xác minh, không gọi là doanh thu thật.")
+row1[1].metric("Giao dịch (dòng)", f"{summary['transactions']:,}",
+               help="Không có Order ID chuẩn tắc nên chưa khẳng định mỗi dòng tương ứng một đơn hàng độc lập.")
+row1[2].metric("Khách hàng duy nhất", f"{summary['customers']:,}")
+row1[3].metric("Churn cấp khách hàng", f"{summary['churn_rate_customer']:.2%}",
+               help="Một khách hàng được tính một lần; không phải trung bình Churn trên giao dịch.")
 
-    /* 5. ĐỊNH HÌNH NÚT TAB THÀNH THẺ NỔI (CARDS) BO GÓC */
-    div[data-testid="stTabs"] button[role="tab"],
-    div[data-testid="stTabs"] button[data-baseweb="tab"] {
-        background-color: #1e293b !important;
-        color: #94a3b8 !important;
-        border: 1px solid #334155 !important;
-        border-radius: 10px !important;
-        padding: 10px 24px !important;
-        margin: 0 !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3) !important;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        cursor: pointer !important;
-    }
+row2 = st.columns(4)
+row2[0].metric("Return rate (đã quan sát)",
+               f"{summary['return_rate_observed']:.2%}" if pd.notna(summary['return_rate_observed']) else "N/A",
+               help=f"Chỉ {summary['returns_observed']:,} giao dịch có Returns=0/1.")
+row2[1].metric("Returns thiếu", f"{summary['returns_missing']:,}",
+               help=f"{summary['returns_missing']/summary['transactions']:.2%} giao dịch có Returns=NULL.")
+row2[2].metric("Trung vị giá trị ghi nhận", f"{summary['reported_amount_median']:,.0f}")
+row2[3].metric("Tổng Price × Quantity", f"{summary['line_item_value_total']/1e6:,.2f}M",
+               help="Giá trị tính toán, không phải tiền thực thanh toán.")
 
-    div[data-testid="stTabs"] button[role="tab"] p,
-    div[data-testid="stTabs"] button[data-baseweb="tab"] p {
-        font-size: 0.92rem !important;
-        font-weight: 600 !important;
-        color: inherit !important;
-        margin: 0 !important;
-    }
-
-    /* 6. HIỆU ỨNG HOVER RÊ CHUỘT VÀO NÚT */
-    div[data-testid="stTabs"] button[role="tab"]:hover,
-    div[data-testid="stTabs"] button[data-baseweb="tab"]:hover {
-        background-color: #334155 !important;
-        color: #ffffff !important;
-        border-color: #60a5fa !important;
-        transform: translateY(-3px) !important;
-        box-shadow: 0 8px 18px rgba(96, 165, 250, 0.25) !important;
-    }
-
-    /* 7. NÚT ĐANG ĐƯỢC CHỌN (ACTIVE) */
-    div[data-testid="stTabs"] button[role="tab"][aria-selected="true"],
-    div[data-testid="stTabs"] button[data-baseweb="tab"][aria-selected="true"] {
-        background-color: #2563eb !important;
-        color: #ffffff !important;
-        border-color: #3b82f6 !important;
-        transform: translateY(-1px) !important;
-        box-shadow: 0 6px 16px rgba(37, 99, 235, 0.45) !important;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
+st.caption(
+    f"**Đối soát tiền tệ:** {summary['amount_mismatch_count']:,}/{summary['transactions']:,} "
+    "bản ghi có `Total Purchase Amount` khác `Product Price × Quantity`. "
+    f"**Returns:** {summary['returns_missing']:,} NULL không được gán bằng 0."
 )
 
-# JavaScript ép đóng Sidebar trên trình duyệt
-st.components.v1.html(
-    """
-    <script>
-    function forceCloseSidebar() {
-        const parentDoc = window.parent.document;
-        const sidebar = parentDoc.querySelector('section[data-testid="stSidebar"]');
-        const collapseBtn = parentDoc.querySelector('button[kind="header"]');
-        if (sidebar && sidebar.getAttribute('aria-expanded') === 'true' && collapseBtn) {
-            collapseBtn.click();
-        }
-    }
-    setTimeout(forceCloseSidebar, 100);
-    setTimeout(forceCloseSidebar, 500);
-    </script>
-    """,
-    height=0,
-)
+try:
+    images = render_charts(str(CLEAN_PATH), version)
+except Exception as err:
+    st.error(f"Không tạo được biểu đồ từ dữ liệu sạch: {err}")
+    st.stop()
 
-st.markdown(
-    """
-    <div class="dashboard-header">
-        <div class="dashboard-title">Báo Cáo Phân Tích Hành Vi Khách Hàng E-Commerce</div>
-        <div class="dashboard-subtitle">Hệ thống kiểm toán chất lượng dữ liệu và trực quan hóa phân tích kinh doanh điều hành.</div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
-col1, col2, col3, col4 = st.columns(4)
-
-total_rev = df["Total Purchase Amount"].sum() / 1e6
-total_orders = len(df)
-median_spend = df["Total Purchase Amount"].median()
-churn_rate = df["Churn"].mean() * 100
-
-with col1:
-    st.metric(
-        "Tổng Doanh Thu",
-        f"${total_rev:,.2f}M",
-        help="Tổng giá trị đơn hàng tích lũy",
-    )
-with col2:
-    st.metric(
-        "Tổng Số Đơn Hàng",
-        f"{total_orders:,}",
-        help="Tổng số giao dịch được ghi nhận",
-    )
-with col3:
-    st.metric(
-        "Chi Tiêu Trung Vị",
-        f"${median_spend:,.0f}",
-        help="Mức chi tiêu đơn hàng trung vị",
-    )
-with col4:
-    st.metric(
-        "Tỷ Lệ Rời Bỏ (Churn)",
-        f"{churn_rate:.1f}%",
-        delta=f"{churn_rate - 20.0:.2f}% vs trung bình",
-        delta_color="inverse",
-    )
-
-st.divider()
-
-tab_revenue, tab_customer, tab_churn, tab_data = st.tabs([
-    "Doanh Thu & Thời Gian",
-    "Khách Hàng & Phân Phối",
-    "Tỷ Lệ Rời Bỏ (Churn Rate)",
-    "Tra Cứu Dữ Liệu Sạch",
+revenue_tab, customers_tab, churn_tab, data_tab = st.tabs([
+    "Giá trị ghi nhận & Thời gian", "Phân phối & Nhân khẩu học",
+    "Churn khách hàng", "Kiểm toán & Tra cứu",
 ])
 
-with tab_revenue:
-    st.subheader("1. Tổng quan Doanh thu theo Ngành hàng & Mốc Thời gian")
+with revenue_tab:
+    st.subheader("Giá trị ghi nhận theo danh mục và thời gian")
     col_a, col_b = st.columns(2)
     with col_a:
-        img_01 = FIGURES_DIR / "01_category_revenue.png"
-        if img_01.exists():
-            st.image(str(img_01), use_container_width=True)
-        else:
-            st.warning("Chưa tìm thấy ảnh 01_category_revenue.png")
+        st.image(images["category"], use_container_width=True)
+        top = category_totals(df).head(2)
+        st.caption("Đứng đầu trong mẫu: " + " và ".join(top.index.tolist())
+                   + ". Xếp hạng theo tổng trường `Total Purchase Amount`.")
     with col_b:
-        img_05 = FIGURES_DIR / "05_monthly_revenue_trend.png"
-        if img_05.exists():
-            st.image(str(img_05), use_container_width=True)
-        else:
-            st.warning("Chưa tìm thấy ảnh 05_monthly_revenue_trend.png")
+        st.image(images["monthly"], use_container_width=True)
+        months = monthly_amount(df)
+        incomplete = months.loc[~months["complete_month"], "Month"]
+        if not incomplete.empty:
+            st.caption("Tháng biên chưa đầy đủ: " + ", ".join(incomplete.dt.strftime("%m/%Y"))
+                       + ". Không so sánh trực tiếp với tháng trọn vẹn.")
+    st.info("Tổng theo tháng là tổng giá trị ghi nhận trong dữ liệu mô phỏng, "
+            "không phải doanh thu thực tế hay xu hướng kinh doanh được xác minh.")
 
-with tab_customer:
-    st.subheader("2. Phân phối Chi tiêu và So sánh Nhân khẩu học")
-    col_c, col_d = st.columns(2)
-    with col_c:
-        img_02 = FIGURES_DIR / "02_purchase_amount_distribution.png"
-        if img_02.exists():
-            st.image(str(img_02), use_container_width=True)
-        else:
-            st.warning("Chưa tìm thấy ảnh 02_purchase_amount_distribution.png")
-    with col_d:
-        img_04 = FIGURES_DIR / "04_spending_by_age_gender.png"
-        if img_04.exists():
-            st.image(str(img_04), use_container_width=True)
-        else:
-            st.warning("Chưa tìm thấy ảnh 04_spending_by_age_gender.png")
+with customers_tab:
+    st.subheader("Phân phối giá trị và nhóm nhân khẩu học")
+    col_a, col_b = st.columns(2)
+    with col_a:
+        st.image(images["distribution"], use_container_width=True)
+    with col_b:
+        st.image(images["age"], use_container_width=True)
+    st.caption("Trung vị theo giao dịch; mỗi khách có thể đóng góp nhiều giao dịch. "
+               "Đơn vị tiền và mức đại diện cho dân số thực chưa được xác minh.")
 
-with tab_churn:
-    st.subheader("3. Phân tích Tỷ lệ Khách hàng Rời bỏ (Churn Rate)")
-    col_e, col_f = st.columns([1.5, 1])
-    with col_e:
-        img_03 = FIGURES_DIR / "03_churn_rate_heatmap.png"
-        if img_03.exists():
-            st.image(str(img_03), use_container_width=True)
-        else:
-            st.warning("Chưa tìm thấy ảnh 03_churn_rate_heatmap.png")
-    with col_f:
-        st.markdown(
-            """
-            ### Đánh giá hành vi khách hàng:
-            * **Tỷ lệ rời bỏ ổn định (~20%):** Churn rate duy trì đồng đều quanh mốc 20% trên mọi phương thức thanh toán và danh mục ngành hàng.
-            * **Đặc trưng dữ liệu:** Mức độ biến thiên giữa các kênh giao dịch dưới 2%, cho thấy nguy cơ rời bỏ không bắt nguồn từ hạn chế của bất kỳ cổng thanh toán hay dòng sản phẩm cụ thể nào.
-            * **Ý nghĩa thực tiễn:** Doanh nghiệp không cần đổi cổng thanh toán mà nên tập trung chiến dịch chăm sóc lại khách hàng định kỳ sau mua sắm.
-            """
-        )
+with churn_tab:
+    st.subheader("Churn cấp khách hàng theo tổ hợp phân khúc")
+    col_a, col_b = st.columns([3, 2])
+    with col_a:
+        st.image(images["churn"], use_container_width=True)
+    with col_b:
+        rate, sample_size = churn_segment_matrix(df)
+        st.markdown("**Cách đọc bảng:** Mỗi khách được tính tối đa một lần **trong từng ô**. "
+                    "Một khách có thể thuộc nhiều ô nếu đã giao dịch qua nhiều danh mục/phương thức.")
+        st.metric("Churn trên toàn bộ khách hàng", f"{summary['churn_rate_customer']:.2%}")
+        st.caption(f"Khoảng tỷ lệ nhóm: {rate.min().min():.2%} đến {rate.max().max():.2%}. "
+                   "Đây là mô tả trên dữ liệu tổng hợp, không chứng minh tác động nhân quả.")
+        st.dataframe((rate * 100).round(2).rename_axis("Danh mục"), use_container_width=True)
 
-with tab_data:
-    st.subheader("4. Bảng tra cứu dữ liệu giao dịch sau làm sạch")
-    
-    with st.expander("🔍 **Bộ Lọc Phân Tích Dữ Liệu (Bấm để mở/ẩn bộ lọc)**", expanded=True):
-        f_col1, f_col2, f_col3 = st.columns(3)
-        with f_col1:
-            sel_cat = st.multiselect(
-                "Danh mục sản phẩm:",
-                options=sorted(df["Product Category"].dropna().unique().tolist()),
-                default=sorted(df["Product Category"].dropna().unique().tolist()),
-            )
-        with f_col2:
-            sel_pay = st.multiselect(
-                "Phương thức thanh toán:",
-                options=sorted(df["Payment Method"].dropna().unique().tolist()),
-                default=sorted(df["Payment Method"].dropna().unique().tolist()),
-            )
-        with f_col3:
-            sel_gen = st.multiselect(
-                "Giới tính khách hàng:",
-                options=sorted(df["Gender"].dropna().unique().tolist()),
-                default=sorted(df["Gender"].dropna().unique().tolist()),
-            )
-
-    filtered_df = df[
-        (df["Product Category"].isin(sel_cat))
-        & (df["Payment Method"].isin(sel_pay))
-        & (df["Gender"].isin(sel_gen))
-    ]
-
-    st.dataframe(filtered_df.head(100), use_container_width=True)
-    st.caption(
-        f"Hiển thị 100 bản ghi đầu tiên trong tổng số {len(filtered_df):,} giao dịch khớp với bộ lọc."
-    )
+with data_tab:
+    st.subheader("Tra cứu dữ liệu đã xác minh")
+    st.caption("Bộ lọc chỉ áp dụng cho bảng bên dưới; các KPI và biểu đồ phía trên "
+               "luôn tính trên toàn bộ dataset.")
+    col1, col2, col3, col4 = st.columns(4)
+    categories = sorted(df["Product Category"].dropna().unique().tolist())
+    payments = sorted(df["Payment Method"].dropna().unique().tolist())
+    genders = sorted(df["Gender"].dropna().unique().tolist())
+    with col1:
+        selected_categories = st.multiselect("Danh mục", categories, default=categories)
+    with col2:
+        selected_payments = st.multiselect("Thanh toán", payments, default=payments)
+    with col3:
+        selected_genders = st.multiselect("Giới tính", genders, default=genders)
+    with col4:
+        selected_returns = st.multiselect("Returns", ["0 · Không", "1 · Có", "NULL · Thiếu"],
+                                          default=["0 · Không", "1 · Có", "NULL · Thiếu"])
+    mask = (df["Product Category"].isin(selected_categories)
+            & df["Payment Method"].isin(selected_payments)
+            & df["Gender"].isin(selected_genders))
+    keep_returns = (df["Returns"].eq(0) & ("0 · Không" in selected_returns)
+                    | df["Returns"].eq(1) & ("1 · Có" in selected_returns)
+                    | df["Returns"].isna() & ("NULL · Thiếu" in selected_returns))
+    filtered = df.loc[mask & keep_returns]
+    # Do not expose synthetic names in the public-facing table; ID remains a pseudonymous key.
+    safe_columns = [c for c in ["Customer ID", "Purchase Date", "Product Category", "Product Price",
+                                "Quantity", AMOUNT, "Payment Method", "Returns",
+                                "Returns_was_missing", "Age", "Gender", "Churn"] if c in filtered]
+    st.dataframe(filtered[safe_columns].head(100), use_container_width=True, hide_index=True)
+    st.caption(f"Hiển thị tối đa 100/{len(filtered):,} giao dịch khớp bộ lọc. "
+               "`Customer Name` được ẩn, dữ liệu gốc không bị sửa.")
+    with st.expander("Quy tắc tính và giới hạn dữ liệu"):
+        st.markdown("""
+- **Tổng giá trị ghi nhận:** tổng `Total Purchase Amount`, **không** gọi là doanh thu thực.
+- **Giá trị tính theo dòng:** tổng `Product Price × Quantity`, không ghi đè dữ liệu gốc.
+- **Churn:** số khách Churn=1 / số Customer ID duy nhất.
+- **Return rate:** số dòng Returns=1 / số dòng Returns không thiếu; không điền NULL=0.
+- **Thời gian:** tháng đầu/cuối có thể thiếu ngày, không thể dùng làm bằng chứng xu hướng ổn định.
+- **Suy rộng:** dataset mô phỏng bằng Faker; chưa xác minh đơn vị tiền tệ và giấy phép.
+        """)
+        st.code("python -m src.run_pipeline --stage eda", language="powershell")

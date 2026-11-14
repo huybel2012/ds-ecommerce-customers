@@ -31,19 +31,30 @@ Sau khi tải file raw từ Kaggle:
 
 Lệnh chạy core Phase 2: audit → data quality → missing → outlier → cleaned CSV; kết quả cuối ở `data/processed/ecommerce_customer_clean.csv` và `reports/phase2/run_manifest.json` (các file phát sinh không commit). Script **không dùng processed CSV thay thế** nếu raw vắng mặt.
 
-Chạy dashboard đang có (đã kiểm tra thủ công trên Windows):
+### Phase 3: EDA & Dashboard
+
+Sau Phase 2, phải có `data/processed/ecommerce_customer_clean.csv` (bản đã **giữ nguyên `Returns=NULL`**).
 
 ```powershell
+# Tạo lại đúng 5 hình EDA, không xóa hình W9/W10 (06–09):
+.\venv\Scripts\python.exe -m src.pipeline.05_explanatory_visualization
+
+# Dashboard chạy trực tiếp từ cùng file clean, hình được render tự động từ CSV:
 .\venv\Scripts\python.exe -m streamlit run app.py
 ```
 
-Dashboard và các kết quả W9–W10 là **legacy**: định nghĩa KPI và phương pháp mô hình phải được rà soát trong Phase 3–4; không suy ra chúng đã được cập nhật tự động bằng Phase 2.
+Hoặc làm lại cả cleaning + EDA từ Kaggle raw: `python -m src.run_pipeline --stage eda`.
+
+**Metric contract:** Dashboard dùng `Total Purchase Amount` như một **giá trị ghi nhận** (đơn vị tiền chưa xác minh), **không** coi là doanh thu USD thực. Churn tính mỗi `Customer ID` **một lần**; tỷ lệ Returns chỉ trên dòng đã quan sát (`NULL` không phải 0). Tháng cuối không đầy đủ được đánh dấu, bảng không hiển thị `Customer Name`. Không dùng `ecommerce_customer_cleaned.csv` legacy làm fallback. Xem [Phase 3 runbook](docs/phase3_runbook.md), [Visualization Audit](reports/phase3/visualization_audit.md) và [Data Dictionary](docs/data_dictionary.md).
+
+Các báo cáo W9–W10 và hình 06–09 chưa được tính lại theo metric contract và sẽ được đánh giá trong Phase 4.
 
 ## Repository
 
 ```text
 app.py                         # Dashboard Streamlit
 src/utils.py                   # Utilities, raw schema, loader
+src/eda_metrics.py             # Phase 3: metric definitions, customer-level churn
 src/run_pipeline.py            # Entrypoint Phase 2 (00–04)
 src/phase1_data_integrity.py   # Phase 1: data integrity
 src/pipeline/                  # 00–07: script phân tích gốc
@@ -55,6 +66,7 @@ reports/phase2/                # Run manifest tự sinh (không commit)
 docs/data_dictionary.md
 docs/phase1_runbook.md
 docs/phase2_runbook.md
+docs/phase3_runbook.md
 tests/                         # Unit tests không cần Kaggle raw
 requirements.txt
 ```

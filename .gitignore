@@ -30,3 +30,6 @@ reports/missing/
 reports/outliers/
 reports/final/
 reports/phase2/
+
+# Phase 3 generated manifest (five report figures 01-05 remain tracked)
+reports/figures/phase3_visualization_manifest.json

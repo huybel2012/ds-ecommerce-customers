@@ -150,7 +150,7 @@ def main(argv: list[str] | None = None) -> int:
     if sha256_file(RAW_DATA_PATH) != raw_hash_before:
         raise RuntimeError("The raw input changed during the pipeline run")
     if not args.validate_only and args.stage == "eda":
-        print("WARNING: EDA charts still require Phase 3 semantics/title review")
+        print("Generating Phase 3 validated EDA charts (01–05) from cleaned CSV")
         execute("05_explanatory_visualization.py")
     manifest = {
         "phase": 2,
